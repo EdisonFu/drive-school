@@ -1,0 +1,196 @@
+/* Courses页面样式 */
+
+.courses-page {
+  padding-top: 80px; /* 为固定头部留出空间 */
+}
+
+/* 页面头图 */
+.page-header {
+  position: relative;
+  height: 300px;
+  overflow: hidden;
+  margin-bottom: 60px;
+}
+
+.page-header-content {
+  position: relative;
+  height: 100%;
+}
+
+.page-header-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.page-header-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  text-align: center;
+}
+
+.page-header-overlay h1 {
+  color: white;
+  font-size: 48px;
+  margin: 0 auto;
+  font-weight: 700;
+}
+
+/* 课程简介 */
+.courses-intro {
+  background-color: var(--white);
+}
+
+.intro-content {
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.intro-content p {
+  margin-bottom: 15px;
+  line-height: 1.8;
+  font-size: 18px;
+}
+
+/* 详细课程 */
+.course-details {
+  background-color: var(--background-light);
+}
+
+.course-item {
+  background: var(--white);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+  margin-bottom: 40px;
+  overflow: hidden;
+}
+
+.course-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.course-header h3 {
+  margin: 0;
+  font-size: 24px;
+}
+
+.price {
+  font-size: 22px;
+  font-weight: bold;
+  color: white;
+}
+
+.course-content {
+  padding: 20px;
+}
+
+.course-image {
+  height: 400px;
+  overflow: hidden;
+}
+
+.course-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.course-details-content {
+  padding: 20px;
+}
+
+.course-description,
+.course-features,
+.course-steps {
+  margin-bottom: 20px;
+}
+
+.course-description h4,
+.course-features h4,
+.course-steps h4 {
+  color: var(--primary-color);
+  margin-bottom: 10px;
+  font-size: 20px;
+}
+
+.course-features ul,
+.course-steps ol {
+  padding-left: 20px;
+}
+
+.course-features li,
+.course-steps li {
+  margin-bottom: 8px;
+  line-height: 1.6;
+}
+
+/* 常见问题 */
+.faq-section {
+  background-color: var(--white);
+}
+
+.faq-content {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.faq-item {
+  margin-bottom: 30px;
+}
+
+.faq-item h3 {
+  color: var(--primary-color);
+  margin-bottom: 15px;
+  font-size: 20px;
+}
+
+.faq-item p {
+  margin-bottom: 10px;
+  line-height: 1.6;
+}
+
+.faq-item ol,
+.faq-item ul {
+  padding-left: 20px;
+  margin-bottom: 10px;
+}
+
+.faq-item li {
+  margin-bottom: 5px;
+}
+
+@media (max-width: 768px) {
+  .page-header {
+    height: 200px;
+  }
+  
+  .page-header-overlay h1 {
+    font-size: 36px;
+  }
+  
+  .course-image {
+    height: 250px;
+  }
+  
+  .course-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .price {
+    margin-top: 10px;
+  }
+}

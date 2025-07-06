@@ -1,0 +1,310 @@
+.home-page {
+  padding-top: 80px; /* 为固定头部留出空间 */
+}
+
+/* 英雄区域 */
+.hero {
+  position: relative;
+  height: 600px;
+  overflow: hidden;
+  margin-bottom: 60px;
+}
+
+.hero-content {
+  position: relative;
+  height: 100%;
+}
+
+.hero-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  text-align: center;
+}
+
+.hero-text {
+  color: white;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.hero-text h2 {
+  font-size: 48px;
+  margin-bottom: 20px;
+  font-weight: 700;
+}
+
+.hero-text p {
+  font-size: 24px;
+  margin-bottom: 30px;
+}
+
+/* 关于我们 */
+.about-section {
+  background-color: var(--white);
+}
+
+.about-image img {
+  width: 100%;
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+}
+
+.about-content {
+  padding: 20px;
+}
+
+.about-content h3 {
+  font-size: 28px;
+  margin-bottom: 20px;
+  color: var(--primary-color);
+}
+
+.about-content p {
+  margin-bottom: 15px;
+  line-height: 1.6;
+}
+
+/* 课程部分 */
+.courses-section {
+  background-color: var(--background-light);
+}
+
+.course-card {
+  overflow: hidden;
+}
+
+.course-image {
+  height: 200px;
+  overflow: hidden;
+}
+
+.course-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.course-card:hover .course-image img {
+  transform: scale(1.05);
+}
+
+.course-content {
+  padding: 20px;
+}
+
+.course-content h3 {
+  font-size: 20px;
+  margin-bottom: 10px;
+  color: var(--primary-color);
+}
+
+.course-action {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 15px;
+}
+
+.course-price {
+  font-size: 20px;
+  font-weight: bold;
+  color: var(--secondary-color);
+}
+
+.btn-submit {
+  display: inline-block;
+  transition: transform 0.3s ease;
+}
+
+.btn-submit:hover {
+  transform: translateY(-3px);
+}
+
+.btn-submit img {
+  height: 36px;
+}
+
+/* 优势部分 */
+.advantages-section {
+  background-color: var(--white);
+}
+
+.advantage-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 30px;
+  background: var(--white);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  padding: 20px;
+  transition: transform 0.3s ease;
+}
+
+.advantage-card:hover {
+  transform: translateY(-5px);
+}
+
+.advantage-icon {
+  width: 120px;
+  height: 120px;
+  overflow: hidden;
+  border-radius: 50%;
+  margin: 0 auto 15px auto;
+}
+
+.advantage-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.advantage-content {
+  padding: 15px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.advantage-content h3 {
+  font-size: 20px;
+  margin-bottom: 10px;
+  color: var(--primary-color);
+}
+
+.advantage-content p {
+  font-size: 16px;
+  color: var(--text-light);
+  text-align: center;
+}
+
+/* 联系表单 */
+.contact-section {
+  background-color: var(--background-light);
+}
+
+.contact-info {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: center;
+}
+
+.contact-image {
+  margin-bottom: 20px;
+}
+
+.contact-image img {
+  width: 100%;
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+  height: auto;
+  max-height: 300px;
+  object-fit: cover;
+}
+
+.contact-text h3 {
+  font-size: 24px;
+  margin-bottom: 10px;
+  color: var(--primary-color);
+}
+
+.highlight {
+  font-size: 20px;
+  font-weight: bold;
+  color: var(--secondary-color);
+  margin-bottom: 15px;
+}
+
+.contact-phone {
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+  font-size: 22px;
+  font-weight: bold;
+  color: var(--primary-color);
+}
+
+.contact-phone img {
+  height: 24px;
+  width: 24px;
+  margin-right: 10px;
+  object-fit: contain;
+}
+
+.contact-form {
+  background: var(--white);
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.form-group textarea {
+  height: 120px;
+  resize: vertical;
+}
+
+.btn-block {
+  width: 100%;
+  padding: 14px;
+  font-size: 18px;
+}
+
+@media (max-width: 768px) {
+  .hero {
+    height: 400px;
+  }
+  
+  .hero-text h2 {
+    font-size: 36px;
+  }
+  
+  .hero-text p {
+    font-size: 18px;
+  }
+  
+  .advantage-card {
+    flex-direction: column;
+  }
+  
+  .advantage-icon {
+    width: 100%;
+    height: 150px;
+  }
+}

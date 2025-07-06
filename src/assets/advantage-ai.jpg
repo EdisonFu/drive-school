@@ -1,0 +1,2 @@
+// AI生成占位图，建议后续替换为真实图片
+export default 'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=800&q=80';
