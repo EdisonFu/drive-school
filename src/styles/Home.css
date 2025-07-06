@@ -126,17 +126,72 @@
 
 .btn-submit {
   display: inline-block;
-  transition: transform 0.3s ease;
   background-color: var(--primary-color);
   color: white !important;
   padding: 8px 16px;
   border-radius: 4px;
   font-weight: bold;
   text-decoration: none;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  transition: transform 0.3s ease;
 }
 
+/* 为所有按钮添加光效基础样式 */
+.btn {
+  position: relative;
+  overflow: hidden; /* 确保光效不会溢出按钮边界 */
+  z-index: 1; /* 确保按钮内容在光效上方 */
+  transition: transform 0.3s ease;
+}
+
+/* 按钮悬停时上移效果 */
+.btn:hover {
+  transform: translateY(-3px);
+  color: white !important;
+}
+
+/* 添加光条效果的伪元素 */
+.btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%; /* 初始位置在按钮外 */
+  width: 50%; /* 光条宽度 */
+  height: 100%;
+  background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.8), transparent); /* 光条渐变效果 */
+  transform: skewX(-25deg); /* 倾斜光条 */
+  transition: left 0s; /* 初始状态无过渡 */
+}
+
+/* 鼠标悬停时触发动画 */
+.btn:hover::before {
+  animation: shine 1s; /* 应用动画，持续1秒 */
+}
+
+/* 提交按钮特定悬停样式 */
 .btn-submit:hover {
   transform: translateY(-3px);
+  color: white !important; /* 确保悬停时字体颜色不变 */
+}
+
+/* 提交按钮光条效果 */
+.btn-submit::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.8), transparent);
+  transform: skewX(-25deg);
+  transition: left 0s;
+}
+
+/* 鼠标悬停时触发光条动画 */
+.btn-submit:hover::before {
+  animation: shine 1s;
 }
 
 /* 优势部分 */
@@ -286,6 +341,34 @@
   width: 100%;
   padding: 14px;
   font-size: 18px;
+}
+
+/* 保持原有btn-submit的特定样式 */
+.btn-submit {
+  display: inline-block;
+  background-color: var(--primary-color);
+  color: white !important;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+/* 将btn类应用到btn-submit */
+.btn-submit {
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+/* 保留原有动画定义 */
+@keyframes shine {
+  0% {
+    left: -100%; /* 开始位置 */
+  }
+  100% {
+    left: 200%; /* 结束位置，超出按钮右侧 */
+  }
 }
 
 @media (max-width: 768px) {
