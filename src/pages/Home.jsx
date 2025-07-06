@@ -52,9 +52,7 @@ const Home = () => {
                 <p>适合驾驶手动挡汽车，学时更灵活，培训内容全面。</p>
                 <div className="course-action">
                   <span className="course-price">¥3980起</span>
-                  <a href="/courses" className="btn-submit">
-                    <img src={imagesConfig.submitBtn} alt="立即报名" />
-                  </a>
+                  <a href="/courses" className="btn-submit">立即报名</a>
                 </div>
               </div>
             </div>
@@ -67,9 +65,7 @@ const Home = () => {
                 <p>适合驾驶自动挡汽车，学习时间短，上手更快捷。</p>
                 <div className="course-action">
                   <span className="course-price">¥4280起</span>
-                  <a href="/courses" className="btn-submit">
-                    <img src={imagesConfig.submitBtn} alt="立即报名" />
-                  </a>
+                  <a href="/courses" className="btn-submit">立即报名</a>
                 </div>
               </div>
             </div>
@@ -82,9 +78,7 @@ const Home = () => {
                 <p>包含E/F证，专业摩托车训练场地，保证通过率。</p>
                 <div className="course-action">
                   <span className="course-price">¥1280起</span>
-                  <a href="/courses" className="btn-submit">
-                    <img src={imagesConfig.submitBtn} alt="立即报名" />
-                  </a>
+                  <a href="/courses" className="btn-submit">立即报名</a>
                 </div>
               </div>
             </div>
