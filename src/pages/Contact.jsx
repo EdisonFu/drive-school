@@ -63,8 +63,24 @@ const Contact = () => {
           <h2 className="section-title">校区地图</h2>
           <div className="map-container">
             <div className="map-placeholder">
-              <p>金寨驾校 · 安徽省六安市金寨县现代产业园</p>
-              <p>欢迎前来参观咨询，可来电预约免费接送</p>
+              <div className="map-pin">📍</div>
+              <h3>金寨驾校</h3>
+              <p className="map-addr">安徽省六安市金寨县现代产业园</p>
+              <div className="map-actions">
+                <a
+                  className="map-btn map-btn-amap"
+                  href="https://uri.amap.com/search?keyword=金寨驾校 金寨县现代产业园&callnative=1"
+                  target="_blank"
+                  rel="noreferrer"
+                >🧭 高德地图导航</a>
+                <a
+                  className="map-btn map-btn-baidu"
+                  href="https://map.baidu.com/search/金寨驾校 金寨县现代产业园"
+                  target="_blank"
+                  rel="noreferrer"
+                >🧭 百度地图导航</a>
+              </div>
+              <p className="map-tip">点击按钮一键导航到校区，可来电预约免费接送</p>
             </div>
             <div className="location-info">
               <h3>交通指南</h3>

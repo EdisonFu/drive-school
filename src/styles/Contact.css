@@ -94,14 +94,69 @@
 
 .map-placeholder {
   height: 400px;
-  background-color: #f0f0f0;
+  background: linear-gradient(135deg, #e8f0fb 0%, #f4f7fb 100%);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
-  padding: 20px;
-  color: #666;
+  padding: 24px;
+  color: #555;
+}
+
+.map-pin {
+  font-size: 52px;
+  line-height: 1;
+  margin-bottom: 8px;
+}
+
+.map-placeholder h3 {
+  font-size: 24px;
+  color: var(--primary-color);
+  margin: 0 0 6px;
+}
+
+.map-addr {
+  font-size: 16px;
+  color: #444;
+  margin: 0 0 22px;
+}
+
+.map-actions {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.map-btn {
+  display: inline-block;
+  padding: 11px 22px;
+  border-radius: 6px;
+  color: #fff !important;
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.map-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.18);
+}
+
+.map-btn-amap {
+  background: #1a73e8;
+}
+
+.map-btn-baidu {
+  background: #2932e1;
+}
+
+.map-tip {
+  font-size: 13px;
+  color: #888;
+  margin: 18px 0 0;
 }
 
 .location-info {
