@@ -221,6 +221,23 @@ ADMIN_HTML = """
  .msg{color:#666;max-width:260px;white-space:pre-wrap}
  .empty{padding:60px;text-align:center;color:#999}
  form.inline{display:inline}
+ /* 手机端: 表格转卡片(标签在上,内容在下) */
+ @media (max-width:700px){
+  header{padding:14px 16px;flex-wrap:wrap;row-gap:8px}
+  header h1{font-size:16px}
+  header a{margin-left:0;margin-right:16px}
+  .wrap{padding:14px}
+  table{background:transparent;box-shadow:none}
+  table,tbody,tr,td{display:block;width:100%}
+  tr:first-child{display:none}
+  tr{background:#fff;border-radius:10px;margin-bottom:14px;box-shadow:0 2px 12px rgba(0,0,0,.06);overflow:hidden;padding:4px 0}
+  td{padding:7px 16px;border-bottom:1px solid #f4f6f9;text-align:left;word-break:break-word}
+  td::before{content:attr(data-label);display:block;font-size:12px;font-weight:600;color:#8a93a0;margin-bottom:3px}
+  td.msg{max-width:none}
+  td:last-child{display:flex;gap:8px;padding-top:12px;border-bottom:0}
+  td:last-child::before{display:none}
+  .btn{padding:8px 14px;font-size:13px}
+ }
 </style></head><body>
 <header>
   <h1>金寨驾校 · 报名管理</h1>
@@ -239,21 +256,21 @@ ADMIN_HTML = """
     </tr>
     {% for r in rows %}
     <tr>
-      <td>{{ r['id'] }}</td>
-      <td>{{ r['created_at'] }}</td>
-      <td>{{ r['name'] }}</td>
-      <td class="phone">{{ r['phone'] }}</td>
-      <td>{{ r['course'] or '-' }}</td>
-      <td class="msg">{{ r['message'] or '-' }}</td>
-      <td>{{ r['source'] or '-' }}</td>
-      <td>
+      <td data-label="#">{{ r['id'] }}</td>
+      <td data-label="提交时间">{{ r['created_at'] }}</td>
+      <td data-label="姓名">{{ r['name'] }}</td>
+      <td class="phone" data-label="手机号">{{ r['phone'] }}</td>
+      <td data-label="意向课程">{{ r['course'] or '-' }}</td>
+      <td class="msg" data-label="留言">{{ r['message'] or '-' }}</td>
+      <td data-label="来源">{{ r['source'] or '-' }}</td>
+      <td data-label="状态">
         {% if r['status'] == 'done' %}
           <span class="badge b-done">已联系</span>
         {% else %}
           <span class="badge b-new">待联系</span>
         {% endif %}
       </td>
-      <td>
+      <td data-label="操作">
         <form class="inline" method="post" action="{{ url_for('toggle_status', rid=r['id']) }}">
           <button class="btn btn-toggle" type="submit">
             {{ '设为待联系' if r['status']=='done' else '标记已联系' }}
