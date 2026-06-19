@@ -175,7 +175,7 @@ const Advantages = () => {
           <div className="grid grid-2">
             <div className="campus-content">
               <h3>舒适的学习环境</h3>
-              <p>金寨驾校位于安徽省金寨县梅山镇金寨大道288号，交通便利，环境优美，为学员提供舒适的学习环境。</p>
+              <p>金寨驾校位于安徽省六安市金寨县现代产业园，交通便利，环境优美，为学员提供舒适的学习环境。</p>
               <ul className="campus-list">
                 <li>
                   <strong>宽敞的休息区：</strong>配备舒适的休息区，提供饮水、充电等服务，方便学员休息和等待。
@@ -248,7 +248,7 @@ const Advantages = () => {
                 <p>填写信息，我们会尽快联系您，为您安排最便捷的看场地时间或解答您的疑问。</p>
                 <div className="contact-phone">
                   <img src={imagesConfig.phoneIcon} alt="电话" />
-                  <span>400-123-4567</span>
+                  <span>0564-7358222</span>
                 </div>
               </div>
             </div>

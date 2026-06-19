@@ -57,6 +57,9 @@
 
 .about-image img {
   width: 100%;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  display: block;
   border-radius: 8px;
   box-shadow: var(--shadow);
 }
@@ -85,12 +88,12 @@
   overflow: hidden;
 }
 
-.course-image {
+.home-page .course-image {
   height: 200px;
   overflow: hidden;
 }
 
-.course-image img {
+.home-page .course-image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -101,11 +104,11 @@
   transform: scale(1.05);
 }
 
-.course-content {
+.home-page .course-content {
   padding: 20px;
 }
 
-.course-content h3 {
+.home-page .course-content h3 {
   font-size: 20px;
   margin-bottom: 10px;
   color: var(--primary-color);
@@ -199,7 +202,7 @@
   background-color: var(--white);
 }
 
-.advantage-card {
+.home-page .advantage-card {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -213,25 +216,25 @@
   transition: transform 0.3s ease;
 }
 
-.advantage-card:hover {
+.home-page .advantage-card:hover {
   transform: translateY(-5px);
 }
 
-.advantage-icon {
-  width: 120px;
-  height: 120px;
+.home-page .advantage-icon {
+  width: 100%;
+  height: 160px;
   overflow: hidden;
   border-radius: 50%;
   margin: 0 auto 15px auto;
 }
 
-.advantage-icon img {
+.home-page .advantage-icon img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-.advantage-content {
+.home-page .advantage-content {
   padding: 15px;
   flex: 1;
   display: flex;
@@ -239,13 +242,13 @@
   align-items: center;
 }
 
-.advantage-content h3 {
+.home-page .advantage-content h3 {
   font-size: 20px;
   margin-bottom: 10px;
   color: var(--primary-color);
 }
 
-.advantage-content p {
+.home-page .advantage-content p {
   font-size: 16px;
   color: var(--text-light);
   text-align: center;
@@ -384,12 +387,12 @@
     font-size: 18px;
   }
   
-  .advantage-card {
+  .home-page .advantage-card {
     flex-direction: column;
   }
   
-  .advantage-icon {
+  .home-page .advantage-icon {
     width: 100%;
-    height: 150px;
+    height: 140px;
   }
 }

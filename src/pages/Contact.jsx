@@ -1,8 +1,10 @@
 import React from 'react';
 import imagesConfig from '../assets/imagesConfig';
+import { useEnrollForm } from '../useEnrollForm';
 import '../styles/Contact.css';
 
 const Contact = () => {
+  const { status, error, handleSubmit } = useEnrollForm('联系页-在线咨询');
   return (
     <div className="contact-page">
       {/* 页面头图 */}
@@ -28,8 +30,7 @@ const Contact = () => {
               </div>
               <div className="info-content">
                 <h3>地址</h3>
-                <p>安徽省金寨县梅山镇金寨大道288号</p>
-                <p>（金寨县人民医院对面）</p>
+                <p>安徽省六安市金寨县现代产业园</p>
               </div>
             </div>
             <div className="info-card">
@@ -38,8 +39,7 @@ const Contact = () => {
               </div>
               <div className="info-content">
                 <h3>电话</h3>
-                <p>报名咨询：400-123-4567</p>
-                <p>客服热线：0564-87654321</p>
+                <p>报名咨询：0564-7358222</p>
               </div>
             </div>
             <div className="info-card">
@@ -63,31 +63,18 @@ const Contact = () => {
           <h2 className="section-title">校区地图</h2>
           <div className="map-container">
             <div className="map-placeholder">
-              <p>这里是地图占位区域，实际使用时请替换为真实地图嵌入代码</p>
-              <p>可以使用百度地图或高德地图的嵌入式地图服务</p>
-              {/* 实际使用时，可以替换为以下代码
-              <iframe 
-                src="https://map.baidu.com/..." 
-                width="100%" 
-                height="100%" 
-                frameBorder="0" 
-                style={{ border: 0 }} 
-                allowFullScreen 
-                title="金寨驾校地图">
-              </iframe>
-              */}
+              <p>金寨驾校 · 安徽省六安市金寨县现代产业园</p>
+              <p>欢迎前来参观咨询，可来电预约免费接送</p>
             </div>
             <div className="location-info">
               <h3>交通指南</h3>
-              <p><strong>公交路线：</strong></p>
-              <ul>
-                <li>乘坐1路、3路、5路公交车到"人民医院站"下车，步行200米即到</li>
-                <li>乘坐2路、6路公交车到"金寨大道口站"下车，步行500米即到</li>
-              </ul>
               <p><strong>自驾路线：</strong></p>
               <ul>
-                <li>从金寨县城出发，沿金寨大道向南行驶约3公里，看到金寨县人民医院后，对面即是金寨驾校</li>
-                <li>导航搜索"金寨驾校"或"安徽省金寨县梅山镇金寨大道288号"</li>
+                <li>导航搜索"金寨驾校"或"金寨县现代产业园"即可到达</li>
+              </ul>
+              <p><strong>公交路线：</strong></p>
+              <ul>
+                <li>可乘坐公交至现代产业园，具体线路欢迎来电咨询</li>
               </ul>
               <p><strong>预约免费接送：</strong>可以通过下方表单或电话预约，我们提供免费接送服务</p>
             </div>
@@ -107,37 +94,43 @@ const Contact = () => {
                 <div className="contact-option">
                   <h4>报名咨询</h4>
                   <p>了解课程费用、报名流程、优惠政策等</p>
-                  <p>电话：400-123-4567</p>
+                  <p>电话：0564-7358222</p>
                 </div>
                 <div className="contact-option">
                   <h4>教学咨询</h4>
                   <p>了解教学安排、考试时间、学车进度等</p>
-                  <p>电话：0564-87654321</p>
+                  <p>电话：0564-7358222</p>
                 </div>
                 <div className="contact-option">
                   <h4>投诉建议</h4>
                   <p>对我们的服务有任何意见或建议</p>
-                  <p>电话：0564-12345678</p>
+                  <p>电话：0564-7358222</p>
                 </div>
               </div>
             </div>
             <div className="contact-form">
-              <form>
+              {status === 'success' ? (
+                <div className="form-success">
+                  <h3>✅ 提交成功！</h3>
+                  <p>我们已收到您的咨询，工作人员会尽快与您联系。</p>
+                </div>
+              ) : (
+              <form onSubmit={handleSubmit}>
                 <div className="form-group">
                   <label htmlFor="name">姓名</label>
-                  <input type="text" id="name" placeholder="请输入您的姓名" required />
+                  <input type="text" id="name" name="name" placeholder="请输入您的姓名" required />
                 </div>
                 <div className="form-group">
                   <label htmlFor="phone">手机号码</label>
-                  <input type="tel" id="phone" placeholder="请输入您的手机号码" required />
+                  <input type="tel" id="phone" name="phone" placeholder="请输入您的手机号码" required maxLength={11} />
                 </div>
                 <div className="form-group">
                   <label htmlFor="email">电子邮箱</label>
-                  <input type="email" id="email" placeholder="请输入您的电子邮箱（选填）" />
+                  <input type="email" id="email" name="email" placeholder="请输入您的电子邮箱（选填）" />
                 </div>
                 <div className="form-group">
                   <label htmlFor="subject">咨询主题</label>
-                  <select id="subject" required>
+                  <select id="subject" name="subject" required>
                     <option value="">请选择咨询主题</option>
                     <option value="enrollment">报名咨询</option>
                     <option value="course">课程咨询</option>
@@ -148,10 +141,14 @@ const Contact = () => {
                 </div>
                 <div className="form-group">
                   <label htmlFor="message">留言内容</label>
-                  <textarea id="message" placeholder="请输入您的咨询内容" required></textarea>
+                  <textarea id="message" name="message" placeholder="请输入您的咨询内容" required></textarea>
                 </div>
-                <button type="submit" className="btn btn-primary btn-block">提交咨询</button>
+                {error && <div className="form-error">{error}</div>}
+                <button type="submit" className="btn btn-primary btn-block" disabled={status === 'submitting'}>
+                  {status === 'submitting' ? '提交中…' : '提交咨询'}
+                </button>
               </form>
+              )}
             </div>
           </div>
         </div>
@@ -167,8 +164,8 @@ const Contact = () => {
               <p>您可以通过以下方式报名：</p>
               <ol>
                 <li>在线预约：填写网站上的预约表单，我们会尽快联系您</li>
-                <li>电话报名：拨打400-123-4567进行电话咨询和报名</li>
-                <li>现场报名：直接到我们的校区（安徽省金寨县梅山镇金寨大道288号）咨询和报名</li>
+                <li>电话报名：拨打0564-7358222进行电话咨询和报名</li>
+                <li>现场报名：直接到我们的校区（安徽省六安市金寨县现代产业园）咨询和报名</li>
               </ol>
             </div>
             <div className="faq-item">
@@ -189,7 +186,7 @@ const Contact = () => {
               <p>如果在学车过程中遇到任何问题，您可以：</p>
               <ol>
                 <li>直接联系您的教练进行沟通</li>
-                <li>拨打我们的客服热线0564-87654321反映问题</li>
+                <li>拨打我们的客服热线0564-7358222反映问题</li>
                 <li>到校区前台咨询或投诉</li>
               </ol>
               <p>我们承诺会尽快解决您的问题，确保您的学车体验。</p>

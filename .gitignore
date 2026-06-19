@@ -22,3 +22,12 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# 本地备份目录(替换图片/CSS前的旧版)
+src/assets/_ai_placeholder_backup/
+src/assets/_pexels_backup/
+src/styles/_css_backup/
+# 后端数据库
+backend/*.db
+backend/venv/
+backend/__pycache__/

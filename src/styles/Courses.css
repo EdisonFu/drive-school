@@ -47,13 +47,13 @@
   background-color: var(--white);
 }
 
-.intro-content {
+.courses-page .intro-content {
   max-width: 800px;
   margin: 0 auto;
   text-align: center;
 }
 
-.intro-content p {
+.courses-page .intro-content p {
   margin-bottom: 15px;
   line-height: 1.8;
   font-size: 18px;
@@ -92,16 +92,16 @@
   color: white;
 }
 
-.course-content {
+.courses-page .course-content {
   padding: 20px;
 }
 
-.course-image {
+.courses-page .course-image {
   height: 400px;
   overflow: hidden;
 }
 
-.course-image img {
+.courses-page .course-image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -138,37 +138,37 @@
 }
 
 /* 常见问题 */
-.faq-section {
+.courses-page .faq-section {
   background-color: var(--white);
 }
 
-.faq-content {
+.courses-page .faq-content {
   max-width: 800px;
   margin: 0 auto;
 }
 
-.faq-item {
+.courses-page .faq-item {
   margin-bottom: 30px;
 }
 
-.faq-item h3 {
+.courses-page .faq-item h3 {
   color: var(--primary-color);
   margin-bottom: 15px;
   font-size: 20px;
 }
 
-.faq-item p {
+.courses-page .faq-item p {
   margin-bottom: 10px;
   line-height: 1.6;
 }
 
-.faq-item ol,
-.faq-item ul {
+.courses-page .faq-item ol,
+.courses-page .faq-item ul {
   padding-left: 20px;
   margin-bottom: 10px;
 }
 
-.faq-item li {
+.courses-page .faq-item li {
   margin-bottom: 5px;
 }
 
@@ -181,7 +181,7 @@
     font-size: 36px;
   }
   
-  .course-image {
+  .courses-page .course-image {
     height: 250px;
   }
   

@@ -1,8 +1,10 @@
 import React from 'react';
 import imagesConfig from '../assets/imagesConfig';
+import { useEnrollForm } from '../useEnrollForm';
 import '../styles/Courses.css';
 
 const Courses = () => {
+  const { status, error, handleSubmit } = useEnrollForm('课程页-在线报名');
   return (
     <div className="courses-page">
       {/* 页面头图 */}
@@ -22,8 +24,8 @@ const Courses = () => {
         <div className="container">
           <h2 className="section-title">课程简介</h2>
           <div className="intro-content">
-            <p>金寨驾校提供全面的驾驶培训课程，涵盖小型汽车（C1、C2）和摩托车驾照培训。我们拥有专业的教练团队和先进的教学设施，为学员提供高质量的驾驶培训服务。</p>
-            <p>所有课程均采用"理论+实践"相结合的教学模式，通过科学的教学计划和个性化的培训方案，帮助学员快速掌握驾驶技能，顺利通过考试。</p>
+            <p>金寨驾校开设全面的驾驶培训课程，涵盖小型汽车（C1/C2）、摩托车、大型货车（B2）、牵引车（A2）增驾以及叉车特种作业培训，满足不同学员的需求。</p>
+            <p>所有课程均采用"理论+实践"相结合的教学模式，专业教练一对一带教，自有考场、考训一体，帮助学员快速掌握技能、顺利通过考试。</p>
           </div>
         </div>
       </section>
@@ -31,97 +33,102 @@ const Courses = () => {
       {/* 详细课程 */}
       <section className="section course-details">
         <div className="container">
-          <h2 className="section-title">详细课程</h2>
-          
-          {/* C1驾照 */}
+          <h2 className="section-title">培训项目与收费</h2>
+
+          {/* 费用说明 */}
+          <div className="price-notice">
+            ⚠️ 以下价格均为<strong>培训费</strong>，<strong>不包含考试费、体检费</strong>。具体费用及优惠详情，请来电咨询 <strong>0564-7358222</strong>。
+          </div>
+
+          {/* C1/C2驾照 */}
           <div className="course-item">
             <div className="course-header">
-              <h3>C1驾照（小型手动挡汽车）</h3>
-              <span className="price">¥3980起</span>
+              <h3>C1 / C2 驾照（小型汽车 · 手动 + 自动挡）</h3>
+              <span className="price">培训费 ¥3320</span>
             </div>
             <div className="course-content grid grid-2">
               <div className="course-image">
-                <img src={imagesConfig.c1Course} alt="C1驾照培训" />
+                <img src={imagesConfig.c1Course} alt="C1C2驾照培训" />
               </div>
               <div className="course-details-content">
                 <div className="course-description">
                   <h4>课程介绍</h4>
-                  <p>C1驾照允许驾驶小型、微型载客汽车以及轻型、微型载货汽车等，是最常见的驾照类型。我们的C1培训课程全面系统，从基础操作到复杂路况应对，全方位培养驾驶技能。</p>
+                  <p>C1（手动挡）与 C2（自动挡）培训费同为 ¥3320，可驾驶小型、微型载客汽车及轻型、微型载货汽车，是最常见的驾照类型。从基础操作到复杂路况，全方位培养驾驶技能。</p>
                 </div>
                 <div className="course-features">
                   <h4>课程特点</h4>
                   <ul>
-                    <li>全面系统的理论与实践教学</li>
-                    <li>教练一对一指导，确保学习效果</li>
-                    <li>灵活的学习时间安排</li>
-                    <li>不限学时，确保学会为止</li>
-                    <li>科目二、科目三考场与训练场一体化</li>
+                    <li>手动挡、自动挡均可报名，培训费同价</li>
+                    <li>教练一对一指导，确保学会为止</li>
+                    <li>灵活排课，科目二、科目三考训一体化</li>
+                    <li>自有考场，周六可考无需请假</li>
                   </ul>
-                </div>
-                <div className="course-steps">
-                  <h4>学习流程</h4>
-                  <ol>
-                    <li>报名注册（网上预约或现场报名）</li>
-                    <li>体检、照相</li>
-                    <li>科目一理论学习与考试</li>
-                    <li>科目二场地驾驶技能训练与考试</li>
-                    <li>科目三道路驾驶技能训练与考试</li>
-                    <li>科目四安全文明驾驶考试</li>
-                    <li>领取驾驶证</li>
-                  </ol>
                 </div>
                 <a href="#contact-form" className="btn btn-primary">立即报名</a>
               </div>
             </div>
           </div>
-          
-          {/* C2驾照 */}
+
+          {/* 货车（B2 / A2）*/}
           <div className="course-item">
             <div className="course-header">
-              <h3>C2驾照（小型自动挡汽车）</h3>
-              <span className="price">¥4280起</span>
+              <h3>货车（B2 大型货车 · A2 牵引车）</h3>
+              <span className="price">培训费 ¥3980 起</span>
             </div>
             <div className="course-content grid grid-2">
               <div className="course-image">
-                <img src={imagesConfig.c2Course} alt="C2驾照培训" />
+                <img src={imagesConfig.truck} alt="货车增驾培训" />
               </div>
               <div className="course-details-content">
                 <div className="course-description">
                   <h4>课程介绍</h4>
-                  <p>C2驾照允许驾驶小型、微型自动挡载客汽车以及轻型、微型自动挡载货汽车等。相比C1驾照，C2驾照学习更为简单，适合没有驾驶经验的学员快速上手。</p>
+                  <p>提供大型货车（B2）及牵引车（A2）的初学与增驾培训，适合从事货运、物流行业的学员。专业大车教练带教，规范训练，助您顺利取证。</p>
                 </div>
                 <div className="course-features">
-                  <h4>课程特点</h4>
+                  <h4>培训费标准</h4>
                   <ul>
-                    <li>简单易学，无需掌握复杂的档位操作</li>
-                    <li>学习周期短，通过率高</li>
-                    <li>专业教练一对一教学</li>
-                    <li>适合工作繁忙、学习时间有限的学员</li>
-                    <li>新车教学，配备先进的教学设备</li>
+                    <li>C1 升 B2（增驾）：¥3980</li>
+                    <li>初学 B2（大型货车）：¥4780</li>
+                    <li>A2 牵引车：¥3980</li>
                   </ul>
-                </div>
-                <div className="course-steps">
-                  <h4>学习流程</h4>
-                  <ol>
-                    <li>报名注册（网上预约或现场报名）</li>
-                    <li>体检、照相</li>
-                    <li>科目一理论学习与考试</li>
-                    <li>科目二场地驾驶技能训练与考试</li>
-                    <li>科目三道路驾驶技能训练与考试</li>
-                    <li>科目四安全文明驾驶考试</li>
-                    <li>领取驾驶证</li>
-                  </ol>
                 </div>
                 <a href="#contact-form" className="btn btn-primary">立即报名</a>
               </div>
             </div>
           </div>
-          
+
+          {/* 叉车 */}
+          <div className="course-item">
+            <div className="course-header">
+              <h3>叉车（特种作业培训）</h3>
+              <span className="price">培训费 ¥1600 起</span>
+            </div>
+            <div className="course-content grid grid-2">
+              <div className="course-image">
+                <img src={imagesConfig.forklift} alt="叉车培训" />
+              </div>
+              <div className="course-details-content">
+                <div className="course-description">
+                  <h4>课程介绍</h4>
+                  <p>提供叉车特种作业培训，零基础也可报名，考取后持证上岗。根据是否有操作基础，培训费有所不同。</p>
+                </div>
+                <div className="course-features">
+                  <h4>培训费标准</h4>
+                  <ul>
+                    <li>有基础：¥1600</li>
+                    <li>无基础：¥2000</li>
+                  </ul>
+                </div>
+                <a href="#contact-form" className="btn btn-primary">立即报名</a>
+              </div>
+            </div>
+          </div>
+
           {/* 摩托车驾照 */}
           <div className="course-item">
             <div className="course-header">
-              <h3>摩托车驾照（E/F证）</h3>
-              <span className="price">¥1280起</span>
+              <h3>摩托车驾照（E / F 证）</h3>
+              <span className="price">培训费 ¥860</span>
             </div>
             <div className="course-content grid grid-2">
               <div className="course-image">
@@ -130,29 +137,15 @@ const Courses = () => {
               <div className="course-details-content">
                 <div className="course-description">
                   <h4>课程介绍</h4>
-                  <p>摩托车驾照分为E照（普通摩托车）和F照（轻便摩托车），我们提供专业的摩托车驾驶培训，从基础操作到复杂路况应对，全方位培养驾驶技能。</p>
+                  <p>摩托车驾照分为 E 照（普通摩托车）和 F 照（轻便摩托车）。专业摩托车训练场地，资深教练指导，学习周期短，一般 1-2 个月即可完成。</p>
                 </div>
                 <div className="course-features">
                   <h4>课程特点</h4>
                   <ul>
                     <li>专业摩托车训练场地</li>
-                    <li>资深摩托车教练一对一指导</li>
-                    <li>学习周期短，一般1-2个月即可完成</li>
-                    <li>灵活的学习时间安排</li>
-                    <li>高通过率保障</li>
+                    <li>资深教练一对一指导</li>
+                    <li>学习周期短，灵活安排</li>
                   </ul>
-                </div>
-                <div className="course-steps">
-                  <h4>学习流程</h4>
-                  <ol>
-                    <li>报名注册（网上预约或现场报名）</li>
-                    <li>体检、照相</li>
-                    <li>科目一理论学习与考试</li>
-                    <li>场地驾驶技能训练与考试</li>
-                    <li>道路驾驶技能训练与考试</li>
-                    <li>安全文明驾驶考试</li>
-                    <li>领取驾驶证</li>
-                  </ol>
                 </div>
                 <a href="#contact-form" className="btn btn-primary">立即报名</a>
               </div>
@@ -168,19 +161,19 @@ const Courses = () => {
           <div className="faq-content">
             <div className="faq-item">
               <h3>学车需要多长时间？</h3>
-              <p>一般情况下，C1驾照需要3-6个月时间，C2驾照需要2-4个月时间，摩托车驾照需要1-2个月时间。具体时间因个人学习能力和练习时间而异。</p>
+              <p>一般情况下，C1/C2 驾照约需 2-4 个月，摩托车约需 1-2 个月，货车增驾时间视具体情况而定。实际时间因个人学习能力和练习频率而异。</p>
             </div>
             <div className="faq-item">
-              <h3>报名费用包含哪些内容？</h3>
-              <p>报名费用包含培训费、考试费、体检费、照相费等，一次性收取，不存在额外收费项目。</p>
+              <h3>网站上的价格包含哪些费用？</h3>
+              <p>网站所列价格均为<strong>培训费</strong>，不包含考试费、体检费。考试费、体检费按实际标准收取，详细费用请来电咨询 0564-7358222。</p>
             </div>
             <div className="faq-item">
               <h3>如何安排学车时间？</h3>
-              <p>我们提供灵活的学车时间安排，学员可以根据自己的时间安排预约练车，周一至周日均可安排。</p>
+              <p>我们提供灵活的学车时间安排，学员可以根据自己的时间预约练车，周一至周日均可安排。</p>
             </div>
             <div className="faq-item">
               <h3>考试不通过怎么办？</h3>
-              <p>考试不通过可以免费补考，我们会提供针对性的强化训练，确保学员顺利通过考试。</p>
+              <p>我们会提供针对性的强化训练，帮助学员查漏补缺，顺利通过考试。补考相关安排可咨询教练。</p>
             </div>
           </div>
         </div>
@@ -201,35 +194,46 @@ const Courses = () => {
                 <p>填写信息，我们会尽快联系您，为您安排最便捷的看场地时间或解答您的疑问。</p>
                 <div className="contact-phone">
                   <img src={imagesConfig.phoneIcon} alt="电话" />
-                  <span>400-123-4567</span>
+                  <span>0564-7358222</span>
                 </div>
               </div>
             </div>
             <div className="contact-form">
-              <form>
+              {status === 'success' ? (
+                <div className="form-success">
+                  <h3>✅ 报名成功！</h3>
+                  <p>我们已收到您的报名信息，工作人员会尽快与您联系。</p>
+                </div>
+              ) : (
+              <form onSubmit={handleSubmit}>
                 <div className="form-group">
                   <label htmlFor="name">姓名</label>
-                  <input type="text" id="name" placeholder="请输入您的姓名" required />
+                  <input type="text" id="name" name="name" placeholder="请输入您的姓名" required />
                 </div>
                 <div className="form-group">
                   <label htmlFor="phone">手机号码</label>
-                  <input type="tel" id="phone" placeholder="请输入您的手机号码" required />
+                  <input type="tel" id="phone" name="phone" placeholder="请输入您的手机号码" required maxLength={11} />
                 </div>
                 <div className="form-group">
                   <label htmlFor="course">意向课程</label>
-                  <select id="course" required>
+                  <select id="course" name="course" required>
                     <option value="">请选择意向课程</option>
-                    <option value="C1">C1驾照（手动挡）</option>
-                    <option value="C2">C2驾照（自动挡）</option>
-                    <option value="Motor">摩托车驾照</option>
+                    <option value="C1C2">C1/C2 小型汽车</option>
+                    <option value="Truck">货车（B2/A2）</option>
+                    <option value="Forklift">叉车</option>
+                    <option value="Motor">摩托车（E/F证）</option>
                   </select>
                 </div>
                 <div className="form-group">
                   <label htmlFor="message">留言</label>
-                  <textarea id="message" placeholder="请输入您的留言或疑问"></textarea>
+                  <textarea id="message" name="message" placeholder="请输入您的留言或疑问"></textarea>
                 </div>
-                <button type="submit" className="btn btn-primary btn-block">提交预约</button>
+                {error && <div className="form-error">{error}</div>}
+                <button type="submit" className="btn btn-primary btn-block" disabled={status === 'submitting'}>
+                  {status === 'submitting' ? '提交中…' : '提交预约'}
+                </button>
               </form>
+              )}
             </div>
           </div>
         </div>

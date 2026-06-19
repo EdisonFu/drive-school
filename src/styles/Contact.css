@@ -171,16 +171,16 @@
 }
 
 /* 常见问题 */
-.faq-section {
+.contact-page .faq-section {
   background-color: var(--background-light);
 }
 
-.faq-content {
+.contact-page .faq-content {
   max-width: 800px;
   margin: 0 auto;
 }
 
-.faq-item {
+.contact-page .faq-item {
   background-color: var(--white);
   border-radius: 8px;
   box-shadow: var(--shadow);
@@ -188,24 +188,24 @@
   margin-bottom: 20px;
 }
 
-.faq-item h3 {
+.contact-page .faq-item h3 {
   color: var(--primary-color);
   margin-bottom: 15px;
   font-size: 20px;
 }
 
-.faq-item p {
+.contact-page .faq-item p {
   margin-bottom: 10px;
   line-height: 1.6;
 }
 
-.faq-item ol,
-.faq-item ul {
+.contact-page .faq-item ol,
+.contact-page .faq-item ul {
   padding-left: 20px;
   margin-bottom: 10px;
 }
 
-.faq-item li {
+.contact-page .faq-item li {
   margin-bottom: 5px;
   line-height: 1.6;
 }

@@ -1,8 +1,10 @@
 import React from 'react';
 import imagesConfig from '../assets/imagesConfig';
+import { useEnrollForm } from '../useEnrollForm';
 import '../styles/Home.css';
 
 const Home = () => {
+  const { status, error, handleSubmit } = useEnrollForm('首页-在线预约');
   return (
     <div className="home-page">
       {/* 英雄区域 */}
@@ -42,14 +44,27 @@ const Home = () => {
       <section className="section courses-section">
         <div className="container">
           <h2 className="section-title">培训课程</h2>
-          <div className="grid grid-3">
+          <div className="grid grid-4">
             <div className="course-card card">
               <div className="course-image">
-                <img src={imagesConfig.c1Course} alt="C1驾照" />
+                <img src={imagesConfig.c1Course} alt="C1C2驾照" />
               </div>
               <div className="course-content">
-                <h3>C1驾照（小型汽车）</h3>
-                <p>适合驾驶手动挡汽车，学时更灵活，培训内容全面。</p>
+                <h3>C1/C2驾照</h3>
+                <p>小型汽车，手动(C1)与自动挡(C2)同价，自有考场。</p>
+                <div className="course-action">
+                  <span className="course-price">¥3320起</span>
+                  <a href="/courses" className="btn-submit">立即报名</a>
+                </div>
+              </div>
+            </div>
+            <div className="course-card card">
+              <div className="course-image">
+                <img src={imagesConfig.truck} alt="货车培训" />
+              </div>
+              <div className="course-content">
+                <h3>货车（B2 / A2）</h3>
+                <p>大型货车、牵引车，初学与增驾均可，专业大车带教。</p>
                 <div className="course-action">
                   <span className="course-price">¥3980起</span>
                   <a href="/courses" className="btn-submit">立即报名</a>
@@ -58,13 +73,13 @@ const Home = () => {
             </div>
             <div className="course-card card">
               <div className="course-image">
-                <img src={imagesConfig.c2Course} alt="C2驾照" />
+                <img src={imagesConfig.forklift} alt="叉车培训" />
               </div>
               <div className="course-content">
-                <h3>C2驾照（自动挡）</h3>
-                <p>适合驾驶自动挡汽车，学习时间短，上手更快捷。</p>
+                <h3>叉车</h3>
+                <p>特种作业培训，零基础可报，考取后持证上岗。</p>
                 <div className="course-action">
-                  <span className="course-price">¥4280起</span>
+                  <span className="course-price">¥1600起</span>
                   <a href="/courses" className="btn-submit">立即报名</a>
                 </div>
               </div>
@@ -74,10 +89,10 @@ const Home = () => {
                 <img src={imagesConfig.motorCourse} alt="摩托车驾照" />
               </div>
               <div className="course-content">
-                <h3>摩托车驾照</h3>
-                <p>包含E/F证，专业摩托车训练场地，保证通过率。</p>
+                <h3>摩托车（E/F证）</h3>
+                <p>专业摩托车训练场地，学习周期短，1-2个月可完成。</p>
                 <div className="course-action">
-                  <span className="course-price">¥1280起</span>
+                  <span className="course-price">¥860起</span>
                   <a href="/courses" className="btn-submit">立即报名</a>
                 </div>
               </div>
@@ -138,7 +153,7 @@ const Home = () => {
             </div>
             <div className="advantage-card">
               <div className="advantage-icon">
-                <img src={imagesConfig.facility} alt="荣誉保障" />
+                <img src={imagesConfig.honor} alt="荣誉保障" />
               </div>
               <div className="advantage-content">
                 <h3>荣誉保障</h3>
@@ -163,36 +178,46 @@ const Home = () => {
                 <p>填写信息，我们会尽快联系您，为您安排最便捷的看场地时间或解答您的疑问。</p>
                 <div className="contact-phone">
                   <img src={imagesConfig.phoneIcon} alt="电话" />
-                  <span>0564-7358508</span>
+                  <span>0564-7358222</span>
                 </div>
               </div>
             </div>
             <div className="contact-form">
-              <form>
+              {status === 'success' ? (
+                <div className="form-success">
+                  <h3>✅ 提交成功！</h3>
+                  <p>我们已收到您的预约信息，工作人员会尽快与您联系。</p>
+                </div>
+              ) : (
+              <form onSubmit={handleSubmit}>
                 <div className="form-group">
                   <label htmlFor="name">姓名</label>
-                  <input type="text" id="name" placeholder="请输入您的姓名" required />
+                  <input type="text" id="name" name="name" placeholder="请输入您的姓名" required />
                 </div>
                 <div className="form-group">
                   <label htmlFor="phone">手机号码</label>
-                  <input type="tel" id="phone" placeholder="请输入您的手机号码" required />
+                  <input type="tel" id="phone" name="phone" placeholder="请输入您的手机号码" required maxLength={11} />
                 </div>
                 <div className="form-group">
                   <label htmlFor="course">意向课程</label>
-                  <select id="course" required>
+                  <select id="course" name="course" required>
                     <option value="">请选择意向课程</option>
-                    <option value="C1">C1驾照（手动挡）</option>
-                    <option value="C2">C2驾照（自动挡）</option>
-                    <option value="B2">B2驾照（货车）</option>
-                    <option value="Motor">摩托车驾照</option>
+                    <option value="C1C2">C1/C2 小型汽车</option>
+                    <option value="Truck">货车（B2/A2）</option>
+                    <option value="Forklift">叉车</option>
+                    <option value="Motor">摩托车（E/F证）</option>
                   </select>
                 </div>
                 <div className="form-group">
                   <label htmlFor="message">留言</label>
-                  <textarea id="message" placeholder="请输入您的留言或疑问"></textarea>
+                  <textarea id="message" name="message" placeholder="请输入您的留言或疑问"></textarea>
                 </div>
-                <button type="submit" className="btn btn-primary btn-block">提交预约</button>
+                {error && <div className="form-error">{error}</div>}
+                <button type="submit" className="btn btn-primary btn-block" disabled={status === 'submitting'}>
+                  {status === 'submitting' ? '提交中…' : '提交预约'}
+                </button>
               </form>
+              )}
             </div>
           </div>
         </div>

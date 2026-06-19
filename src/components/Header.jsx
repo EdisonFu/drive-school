@@ -20,7 +20,7 @@ const Header = () => {
           <div className="contact-info">
             <div className="phone">
               <img src={imagesConfig.phoneIcon} alt="电话" />
-              <span>400-123-4567</span>
+              <span>0564-7358222</span>
             </div>
           </div>
           <nav className="main-nav">

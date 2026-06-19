@@ -18,6 +18,9 @@ import campus from './campus.jpg';
 import facility from './facility.jpg';
 import teachingStaff from './teaching-staff.jpg';
 import contact from './contact.jpg';
+import honor from './honor.jpg';
+import truck from './truck.jpg';
+import forklift from './forklift.jpg';
 import submitBtn from './images/submit-btn.png';
 import arrowRight from './images/arrow-right.png';
 import phoneIcon from './images/phone-icon.png';
@@ -35,6 +38,8 @@ const imagesConfig = {
   c1Course,
   c2Course,
   motorCourse,
+  truck,
+  forklift,
 
   // 优势与特点
   advantage1,
@@ -45,6 +50,7 @@ const imagesConfig = {
   // 校区与设施
   campus,
   facility,
+  honor,
 
   // 其他资源
   teachingStaff,

@@ -1,4 +1,20 @@
 /* 全局样式 */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
+img {
+  max-width: 100%;
+}
+
 :root {
   --primary-color: #0066cc;
   --secondary-color: #ff6600;
@@ -116,4 +132,42 @@ body {
   .section-title {
     font-size: 28px;
   }
+}
+
+/* 报名表单：提交反馈样式 */
+.form-success {
+  text-align: center;
+  padding: 40px 20px;
+}
+.form-success h3 {
+  color: #1a7f37;
+  font-size: 22px;
+  margin-bottom: 12px;
+}
+.form-success p {
+  color: #555;
+  font-size: 15px;
+  line-height: 1.6;
+}
+.form-error {
+  color: #d93025;
+  font-size: 14px;
+  margin-bottom: 12px;
+  text-align: center;
+}
+button[disabled] {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* 课程页·费用说明提示条 */
+.price-notice {
+  background: #fff4e5;
+  border: 1px solid #ffd9a8;
+  color: #b9651b;
+  border-radius: 8px;
+  padding: 14px 20px;
+  margin-bottom: 30px;
+  font-size: 16px;
+  line-height: 1.7;
 }
