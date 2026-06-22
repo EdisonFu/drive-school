@@ -118,11 +118,36 @@ def init_db():
     conn.execute(
         "CREATE TABLE IF NOT EXISTS site_content (id INTEGER PRIMARY KEY CHECK(id=1), data TEXT)"
     )
+    # 跟进记录字段（老库平滑升级）
+    cols = [r[1] for r in conn.execute("PRAGMA table_info(enrollments)")]
+    if "note" not in cols:
+        conn.execute("ALTER TABLE enrollments ADD COLUMN note TEXT")
+    # 访问埋点表
+    conn.execute(
+        """
+        CREATE TABLE IF NOT EXISTS pageviews (
+            id         INTEGER PRIMARY KEY AUTOINCREMENT,
+            path       TEXT,
+            ip         TEXT,
+            day        TEXT,
+            user_agent TEXT,
+            created_at TEXT NOT NULL
+        )
+        """
+    )
+    conn.execute("CREATE INDEX IF NOT EXISTS idx_pv_day ON pageviews(day)")
     conn.commit()
     conn.close()
 
 
 init_db()
+
+
+def client_ip():
+    xff = request.headers.get("X-Forwarded-For", "")
+    if xff:
+        return xff.split(",")[0].strip()
+    return request.headers.get("X-Real-IP", request.remote_addr or "")
 
 
 def _deep_merge(default, override):
@@ -287,8 +312,11 @@ ADMIN_HTML = """
  .msg{color:#666;max-width:260px;white-space:pre-wrap}
  .empty{padding:60px;text-align:center;color:#999}
  form.inline{display:inline}
+ .note-form{display:flex;flex-direction:column;gap:6px}
+ .note-form textarea{width:180px;border:1px solid #d9dee5;border-radius:5px;padding:6px 8px;font-size:13px;font-family:inherit;resize:vertical}
  /* 手机端: 表格转卡片(标签在上,内容在下) */
  @media (max-width:700px){
+  .note-form textarea{width:100%}
   header{padding:14px 16px;flex-wrap:wrap;row-gap:8px}
   header h1{font-size:16px}
   header a{margin-left:0;margin-right:16px}
@@ -308,6 +336,7 @@ ADMIN_HTML = """
 <header>
   <h1>金寨驾校 · 报名管理</h1>
   <div>
+    <a href="{{ url_for('admin_stats') }}">访问统计</a>
     <a href="{{ url_for('admin_content') }}">网站内容</a>
     <a href="{{ url_for('export_csv') }}">导出 CSV</a>
     <a href="{{ url_for('admin_logout') }}">退出登录</a>
@@ -319,7 +348,7 @@ ADMIN_HTML = """
   <table>
     <tr>
       <th>#</th><th>提交时间</th><th>姓名</th><th>手机号</th><th>意向课程</th>
-      <th>留言</th><th>来源</th><th>状态</th><th>操作</th>
+      <th>留言</th><th>来源</th><th>状态</th><th>跟进记录</th><th>操作</th>
     </tr>
     {% for r in rows %}
     <tr>
@@ -336,6 +365,12 @@ ADMIN_HTML = """
         {% else %}
           <span class="badge b-new">待联系</span>
         {% endif %}
+      </td>
+      <td data-label="跟进记录">
+        <form method="post" action="{{ url_for('save_note', rid=r['id']) }}" class="note-form">
+          <textarea name="note" rows="2" placeholder="填写跟进记录…">{{ r['note'] or '' }}</textarea>
+          <button class="btn btn-toggle" type="submit">保存备注</button>
+        </form>
       </td>
       <td data-label="操作">
         <form class="inline" method="post" action="{{ url_for('toggle_status', rid=r['id']) }}">
@@ -591,6 +626,108 @@ def admin_content():
         save_content(c)
         saved = True
     return render_template_string(CONTENT_HTML, c=get_content(), saved=saved)
+
+
+# ------------------------------------------------------------------
+# 访问埋点 + 跟进记录 + 访问统计
+# ------------------------------------------------------------------
+@app.route("/api/track", methods=["POST", "OPTIONS"])
+def api_track():
+    """前端每次访问页面调用，记录 PV（JS 触发，天然过滤大部分爬虫）。"""
+    if request.method == "OPTIONS":
+        return ("", 204)
+    data = request.get_json(silent=True) or {}
+    path = (data.get("path") or "/")[:200]
+    now = datetime.now()
+    conn = get_db()
+    conn.execute(
+        "INSERT INTO pageviews (path, ip, day, user_agent, created_at) VALUES (?,?,?,?,?)",
+        (path, client_ip(), now.strftime("%Y-%m-%d"),
+         request.headers.get("User-Agent", "")[:300], now.strftime("%Y-%m-%d %H:%M:%S")),
+    )
+    conn.commit()
+    conn.close()
+    return ("", 204)
+
+
+@app.route("/admin/<int:rid>/note", methods=["POST"])
+@login_required
+def save_note(rid):
+    conn = get_db()
+    conn.execute("UPDATE enrollments SET note=? WHERE id=?",
+                 (request.form.get("note", "").strip()[:1000], rid))
+    conn.commit()
+    conn.close()
+    return redirect(url_for("admin"))
+
+
+STATS_HTML = """
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>访问统计 - 金寨驾校</title>
+<style>
+ body{font-family:-apple-system,"PingFang SC",sans-serif;background:#f4f6f9;margin:0;color:#222}
+ header{background:#1a3b6e;color:#fff;padding:16px 28px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;row-gap:8px}
+ header h1{font-size:18px;margin:0} header a{color:#cfe0ff;text-decoration:none;font-size:14px;margin-left:18px}
+ .wrap{max-width:860px;margin:0 auto;padding:22px 16px}
+ .cards{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:22px}
+ .stat-card{flex:1;min-width:150px;background:#fff;border-radius:10px;box-shadow:0 2px 12px rgba(0,0,0,.05);padding:20px;text-align:center}
+ .stat-card .num{font-size:32px;font-weight:700;color:#1a73e8} .stat-card .lbl{font-size:13px;color:#777;margin-top:6px}
+ .card{background:#fff;border-radius:10px;box-shadow:0 2px 12px rgba(0,0,0,.05);padding:18px 20px;margin-bottom:20px}
+ .card h2{font-size:16px;color:#1a3b6e;margin:0 0 14px;border-left:4px solid #1a73e8;padding-left:10px}
+ table{width:100%;border-collapse:collapse;font-size:14px} th,td{padding:9px 12px;text-align:left;border-bottom:1px solid #eef1f5}
+ th{background:#f7f9fc;color:#555} .muted{color:#888;font-size:12px}
+</style></head><body>
+<header>
+  <h1>金寨驾校 · 访问统计</h1>
+  <div><a href="{{ url_for('admin') }}">报名管理</a><a href="{{ url_for('admin_content') }}">网站内容</a><a href="{{ url_for('admin_logout') }}">退出登录</a></div>
+</header>
+<div class="wrap">
+  <div class="cards">
+    <div class="stat-card"><div class="num">{{ total_pv }}</div><div class="lbl">总访问次数 (PV)</div></div>
+    <div class="stat-card"><div class="num">{{ total_uv }}</div><div class="lbl">独立访客 (IP去重)</div></div>
+    <div class="stat-card"><div class="num">{{ today_pv }}</div><div class="lbl">今日访问</div></div>
+    <div class="stat-card"><div class="num">{{ today_uv }}</div><div class="lbl">今日独立访客</div></div>
+  </div>
+  <div class="card">
+    <h2>近 7 天</h2>
+    <table><tr><th>日期</th><th>访问次数</th><th>独立访客</th></tr>
+    {% for d in days %}<tr><td>{{ d.day }}</td><td>{{ d.pv }}</td><td>{{ d.uv }}</td></tr>{% endfor %}
+    {% if not days %}<tr><td colspan="3" class="muted">暂无数据</td></tr>{% endif %}
+    </table>
+  </div>
+  <div class="card">
+    <h2>各页面访问</h2>
+    <table><tr><th>页面</th><th>访问次数</th><th>独立访客</th></tr>
+    {% for p in paths %}<tr><td>{{ p.path }}</td><td>{{ p.pv }}</td><td>{{ p.uv }}</td></tr>{% endfor %}
+    {% if not paths %}<tr><td colspan="3" class="muted">暂无数据</td></tr>{% endif %}
+    </table>
+  </div>
+  <p class="muted">说明：统计由网页 JS 触发，已天然过滤掉大部分不执行 JS 的爬虫；独立访客按 IP 去重。</p>
+</div></body></html>
+"""
+
+
+@app.route("/admin/stats")
+@login_required
+def admin_stats():
+    conn = get_db()
+    today = datetime.now().strftime("%Y-%m-%d")
+    total_pv = conn.execute("SELECT COUNT(*) FROM pageviews").fetchone()[0]
+    total_uv = conn.execute("SELECT COUNT(DISTINCT ip) FROM pageviews").fetchone()[0]
+    today_pv = conn.execute("SELECT COUNT(*) FROM pageviews WHERE day=?", (today,)).fetchone()[0]
+    today_uv = conn.execute("SELECT COUNT(DISTINCT ip) FROM pageviews WHERE day=?", (today,)).fetchone()[0]
+    days = conn.execute(
+        "SELECT day, COUNT(*) pv, COUNT(DISTINCT ip) uv FROM pageviews GROUP BY day ORDER BY day DESC LIMIT 7"
+    ).fetchall()
+    paths = conn.execute(
+        "SELECT path, COUNT(*) pv, COUNT(DISTINCT ip) uv FROM pageviews GROUP BY path ORDER BY pv DESC LIMIT 20"
+    ).fetchall()
+    conn.close()
+    return render_template_string(
+        STATS_HTML, total_pv=total_pv, total_uv=total_uv,
+        today_pv=today_pv, today_uv=today_uv, days=days, paths=paths,
+    )
 
 
 @app.route("/healthz")
