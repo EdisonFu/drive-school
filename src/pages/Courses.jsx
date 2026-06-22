@@ -1,10 +1,19 @@
 import React from 'react';
 import imagesConfig from '../assets/imagesConfig';
 import { useEnrollForm } from '../useEnrollForm';
+import { useContent } from '../content';
 import '../styles/Courses.css';
+
+const COURSE_DEFAULT_IMGS = [
+  imagesConfig.c1Course,
+  imagesConfig.truck,
+  imagesConfig.forklift,
+  imagesConfig.motorCourse,
+];
 
 const Courses = () => {
   const { status, error, handleSubmit } = useEnrollForm('课程页-在线报名');
+  const c = useContent();
   return (
     <div className="courses-page">
       {/* 页面头图 */}
@@ -37,23 +46,23 @@ const Courses = () => {
 
           {/* 费用说明 */}
           <div className="price-notice">
-            ⚠️ 以下价格均为<strong>培训费</strong>，<strong>不包含考试费、体检费</strong>。具体费用及优惠详情，请来电咨询 <strong>0564-7358222</strong>。
+            ⚠️ 以下价格均为<strong>培训费</strong>，<strong>不包含考试费、体检费</strong>。具体费用及优惠详情，请来电咨询 <strong>{c.global.phone}</strong>。
           </div>
 
           {/* C1/C2驾照 */}
           <div className="course-item">
             <div className="course-header">
               <h3>C1 / C2 驾照（小型汽车 · 手动 + 自动挡）</h3>
-              <span className="price">培训费 ¥3320</span>
+              <span className="price">培训费 {c.courses[0].price}</span>
             </div>
             <div className="course-content grid grid-2">
               <div className="course-image">
-                <img src={imagesConfig.c1Course} alt="C1C2驾照培训" />
+                <img src={c.courses[0].image || COURSE_DEFAULT_IMGS[0]} alt="C1C2驾照培训" />
               </div>
               <div className="course-details-content">
                 <div className="course-description">
                   <h4>课程介绍</h4>
-                  <p>C1（手动挡）与 C2（自动挡）培训费同为 ¥3320，可驾驶小型、微型载客汽车及轻型、微型载货汽车，是最常见的驾照类型。从基础操作到复杂路况，全方位培养驾驶技能。</p>
+                  <p>{c.courses[0].desc}</p>
                 </div>
                 <div className="course-features">
                   <h4>课程特点</h4>
@@ -73,16 +82,16 @@ const Courses = () => {
           <div className="course-item">
             <div className="course-header">
               <h3>货车（B2 大型货车 · A2 牵引车）</h3>
-              <span className="price">培训费 ¥3980 起</span>
+              <span className="price">培训费 {c.courses[1].price}</span>
             </div>
             <div className="course-content grid grid-2">
               <div className="course-image">
-                <img src={imagesConfig.truck} alt="货车增驾培训" />
+                <img src={c.courses[1].image || COURSE_DEFAULT_IMGS[1]} alt="货车增驾培训" />
               </div>
               <div className="course-details-content">
                 <div className="course-description">
                   <h4>课程介绍</h4>
-                  <p>提供大型货车（B2）及牵引车（A2）的初学与增驾培训，适合从事货运、物流行业的学员。专业大车教练带教，规范训练，助您顺利取证。</p>
+                  <p>{c.courses[1].desc}</p>
                 </div>
                 <div className="course-features">
                   <h4>培训费标准</h4>
@@ -101,16 +110,16 @@ const Courses = () => {
           <div className="course-item">
             <div className="course-header">
               <h3>叉车（特种作业培训）</h3>
-              <span className="price">培训费 ¥1600 起</span>
+              <span className="price">培训费 {c.courses[2].price}</span>
             </div>
             <div className="course-content grid grid-2">
               <div className="course-image">
-                <img src={imagesConfig.forklift} alt="叉车培训" />
+                <img src={c.courses[2].image || COURSE_DEFAULT_IMGS[2]} alt="叉车培训" />
               </div>
               <div className="course-details-content">
                 <div className="course-description">
                   <h4>课程介绍</h4>
-                  <p>提供叉车特种作业培训，零基础也可报名，考取后持证上岗。根据是否有操作基础，培训费有所不同。</p>
+                  <p>{c.courses[2].desc}</p>
                 </div>
                 <div className="course-features">
                   <h4>培训费标准</h4>
@@ -128,16 +137,16 @@ const Courses = () => {
           <div className="course-item">
             <div className="course-header">
               <h3>摩托车驾照（E / F 证）</h3>
-              <span className="price">培训费 ¥860</span>
+              <span className="price">培训费 {c.courses[3].price}</span>
             </div>
             <div className="course-content grid grid-2">
               <div className="course-image">
-                <img src={imagesConfig.motorCourse} alt="摩托车驾照培训" />
+                <img src={c.courses[3].image || COURSE_DEFAULT_IMGS[3]} alt="摩托车驾照培训" />
               </div>
               <div className="course-details-content">
                 <div className="course-description">
                   <h4>课程介绍</h4>
-                  <p>摩托车驾照分为 E 照（普通摩托车）和 F 照（轻便摩托车）。专业摩托车训练场地，资深教练指导，学习周期短，一般 1-2 个月即可完成。</p>
+                  <p>{c.courses[3].desc}</p>
                 </div>
                 <div className="course-features">
                   <h4>课程特点</h4>
@@ -165,7 +174,7 @@ const Courses = () => {
             </div>
             <div className="faq-item">
               <h3>网站上的价格包含哪些费用？</h3>
-              <p>网站所列价格均为<strong>培训费</strong>，不包含考试费、体检费。考试费、体检费按实际标准收取，详细费用请来电咨询 0564-7358222。</p>
+              <p>网站所列价格均为<strong>培训费</strong>，不包含考试费、体检费。考试费、体检费按实际标准收取，详细费用请来电咨询 {c.global.phone}。</p>
             </div>
             <div className="faq-item">
               <h3>如何安排学车时间？</h3>
@@ -194,7 +203,7 @@ const Courses = () => {
                 <p>填写信息，我们会尽快联系您，为您安排最便捷的看场地时间或解答您的疑问。</p>
                 <div className="contact-phone">
                   <img src={imagesConfig.phoneIcon} alt="电话" />
-                  <span>0564-7358222</span>
+                  <span>{c.global.phone}</span>
                 </div>
               </div>
             </div>

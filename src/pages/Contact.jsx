@@ -1,10 +1,12 @@
 import React from 'react';
 import imagesConfig from '../assets/imagesConfig';
 import { useEnrollForm } from '../useEnrollForm';
+import { useContent } from '../content';
 import '../styles/Contact.css';
 
 const Contact = () => {
   const { status, error, handleSubmit } = useEnrollForm('联系页-在线咨询');
+  const c = useContent();
   return (
     <div className="contact-page">
       {/* 页面头图 */}
@@ -30,7 +32,7 @@ const Contact = () => {
               </div>
               <div className="info-content">
                 <h3>地址</h3>
-                <p>安徽省六安市金寨县现代产业园</p>
+                <p>{c.global.address}</p>
               </div>
             </div>
             <div className="info-card">
@@ -39,7 +41,7 @@ const Contact = () => {
               </div>
               <div className="info-content">
                 <h3>电话</h3>
-                <p>报名咨询：0564-7358222</p>
+                <p>报名咨询：{c.global.phone}</p>
               </div>
             </div>
             <div className="info-card">
@@ -48,9 +50,9 @@ const Contact = () => {
               </div>
               <div className="info-content">
                 <h3>营业时间</h3>
-                <p>周一至周五：8:00 - 18:00</p>
-                <p>周六：8:00 - 17:00</p>
-                <p>周日：9:00 - 16:00</p>
+                <p>{c.global.hours1}</p>
+                <p>{c.global.hours2}</p>
+                <p>{c.global.hours3}</p>
               </div>
             </div>
           </div>
@@ -65,7 +67,7 @@ const Contact = () => {
             <div className="map-placeholder">
               <div className="map-pin">📍</div>
               <h3>金寨驾校</h3>
-              <p className="map-addr">安徽省六安市金寨县现代产业园</p>
+              <p className="map-addr">{c.global.address}</p>
               <div className="map-actions">
                 <a
                   className="map-btn map-btn-amap"
@@ -110,17 +112,17 @@ const Contact = () => {
                 <div className="contact-option">
                   <h4>报名咨询</h4>
                   <p>了解课程费用、报名流程、优惠政策等</p>
-                  <p>电话：0564-7358222</p>
+                  <p>电话：{c.global.phone}</p>
                 </div>
                 <div className="contact-option">
                   <h4>教学咨询</h4>
                   <p>了解教学安排、考试时间、学车进度等</p>
-                  <p>电话：0564-7358222</p>
+                  <p>电话：{c.global.phone}</p>
                 </div>
                 <div className="contact-option">
                   <h4>投诉建议</h4>
                   <p>对我们的服务有任何意见或建议</p>
-                  <p>电话：0564-7358222</p>
+                  <p>电话：{c.global.phone}</p>
                 </div>
               </div>
             </div>
@@ -180,8 +182,8 @@ const Contact = () => {
               <p>您可以通过以下方式报名：</p>
               <ol>
                 <li>在线预约：填写网站上的预约表单，我们会尽快联系您</li>
-                <li>电话报名：拨打0564-7358222进行电话咨询和报名</li>
-                <li>现场报名：直接到我们的校区（安徽省六安市金寨县现代产业园）咨询和报名</li>
+                <li>电话报名：拨打{c.global.phone}进行电话咨询和报名</li>
+                <li>现场报名：直接到我们的校区（{c.global.address}）咨询和报名</li>
               </ol>
             </div>
             <div className="faq-item">
@@ -202,7 +204,7 @@ const Contact = () => {
               <p>如果在学车过程中遇到任何问题，您可以：</p>
               <ol>
                 <li>直接联系您的教练进行沟通</li>
-                <li>拨打我们的客服热线0564-7358222反映问题</li>
+                <li>拨打我们的客服热线{c.global.phone}反映问题</li>
                 <li>到校区前台咨询或投诉</li>
               </ol>
               <p>我们承诺会尽快解决您的问题，确保您的学车体验。</p>

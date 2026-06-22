@@ -1,9 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import imagesConfig from '../assets/imagesConfig';
+import { useContent } from '../content';
 import '../styles/Header.css';
 
 const Header = () => {
+  const c = useContent();
   return (
     <header className="header">
       <div className="container">
@@ -20,7 +22,7 @@ const Header = () => {
           <div className="contact-info">
             <div className="phone">
               <img src={imagesConfig.phoneIcon} alt="电话" />
-              <span>0564-7358222</span>
+              <span>{c.global.phone}</span>
             </div>
           </div>
           <nav className="main-nav">

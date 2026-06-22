@@ -34,7 +34,7 @@ npm run build
 # 2. 复制文件到服务器
 echo "正在将文件复制到服务器 $SERVER_USER@$SERVER_IP:$SERVER_PATH ..."
 ssh "$SERVER_USER@$SERVER_IP" "mkdir -p $SERVER_PATH"
-rsync -avz --delete "$LOCAL_DIST_PATH/" "$SERVER_USER@$SERVER_IP:$SERVER_PATH/"
+rsync -avz --delete --exclude=uploads "$LOCAL_DIST_PATH/" "$SERVER_USER@$SERVER_IP:$SERVER_PATH/"
 
 # 3. 重新加载 Nginx 服务
 echo "重新加载 Nginx 服务..."

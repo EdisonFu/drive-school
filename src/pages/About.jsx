@@ -1,8 +1,10 @@
 import React from 'react';
 import imagesConfig from '../assets/imagesConfig';
+import { useContent } from '../content';
 import '../styles/About.css';
 
 const About = () => {
+  const c = useContent();
   return (
     <div className="about-page">
       {/* 页面头图 */}
@@ -162,11 +164,11 @@ const About = () => {
             <div className="contact-info-cards">
               <div className="contact-info-card">
                 <h3>总校区地址</h3>
-                <p>安徽省六安市金寨县现代产业园</p>
+                <p>{c.global.address}</p>
               </div>
               <div className="contact-info-card">
                 <h3>咨询电话</h3>
-                <p>0564-7358222</p>
+                <p>{c.global.phone}</p>
               </div>
               <div className="contact-info-card">
                 <h3>营业时间</h3>

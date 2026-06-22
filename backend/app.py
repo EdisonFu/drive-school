@@ -20,6 +20,7 @@ import os
 import re
 import csv
 import io
+import json
 import sqlite3
 import secrets
 from datetime import datetime
@@ -30,6 +31,7 @@ from flask import (
     render_template_string, Response, abort
 )
 from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.utils import secure_filename
 
 # ------------------------------------------------------------------
 # 配置
@@ -46,6 +48,10 @@ DB_PATH = os.environ.get(
 
 PHONE_RE = re.compile(r"^1[3-9]\d{9}$")   # 中国大陆 11 位手机号
 
+# 图片上传目录（nginx 静态目录下的 uploads，上传后可经 /uploads/xxx 直接访问）
+UPLOAD_DIR = os.environ.get("UPLOAD_DIR", "/var/www/jinzhai-drive-school/uploads")
+ALLOWED_IMG = {".jpg", ".jpeg", ".png", ".gif", ".webp"}
+
 app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY", secrets.token_hex(32))
 app.config.update(
@@ -61,6 +67,34 @@ def get_db():
     conn = sqlite3.connect(DB_PATH)
     conn.row_factory = sqlite3.Row
     return conn
+
+
+# ------------------------------------------------------------------
+# 网站可编辑内容（核心常改字段）默认值——前端写死内容的副本，作为兜底
+# ------------------------------------------------------------------
+DEFAULT_CONTENT = {
+    "global": {
+        "phone": "0564-7358222",
+        "address": "安徽省六安市金寨县现代产业园",
+        "hours1": "周一至周五：8:00 - 18:00",
+        "hours2": "周六：8:00 - 17:00",
+        "hours3": "周日：9:00 - 16:00",
+    },
+    "home": {
+        "hero_title": "专业驾驶培训",
+        "hero_subtitle": "金寨驾校 - 金寨县专业驾培领航者 - 20余年驾培经验",
+        "hero_image": "",
+        "about_title": "驾校简介",
+        "about_text1": "金寨驾校于1995年申报，1999年7月经省运管局批准立项，同年11月正式面向社会招生办学。作为金寨县历史悠久的驾驶培训机构，我们已有超过20年的办学经验，培养了数万名合格驾驶员。",
+        "about_text2": "我校占地70余亩，拥有教学楼及附属房屋90间，配备完善的教学设施、宽敞的训练场地和一支经验丰富的教练团队，致力于为每一位学员提供专业、便捷、高效的驾驶培训服务。",
+    },
+    "courses": [
+        {"name": "C1/C2驾照", "price": "¥3320起", "desc": "小型汽车，手动(C1)与自动挡(C2)培训费同价，自有考场，考训一体。", "image": ""},
+        {"name": "货车（B2/A2）", "price": "¥3980起", "desc": "大型货车、牵引车，初学与增驾均可，专业大车带教，另设叉车特种作业培训。", "image": ""},
+        {"name": "叉车", "price": "¥1600起", "desc": "特种作业培训，零基础可报，考取后持证上岗。", "image": ""},
+        {"name": "摩托车（E/F证）", "price": "¥860起", "desc": "专业摩托车训练场地，学习周期短，1-2个月可完成。", "image": ""},
+    ],
+}
 
 
 def init_db():
@@ -81,11 +115,43 @@ def init_db():
         )
         """
     )
+    conn.execute(
+        "CREATE TABLE IF NOT EXISTS site_content (id INTEGER PRIMARY KEY CHECK(id=1), data TEXT)"
+    )
     conn.commit()
     conn.close()
 
 
 init_db()
+
+
+def _deep_merge(default, override):
+    """把已保存内容覆盖到默认值上（新增的默认字段也能出现）。"""
+    if isinstance(default, dict) and isinstance(override, dict):
+        out = dict(default)
+        for k, v in override.items():
+            out[k] = _deep_merge(default.get(k), v)
+        return out
+    return override if override is not None else default
+
+
+def get_content():
+    conn = get_db()
+    row = conn.execute("SELECT data FROM site_content WHERE id=1").fetchone()
+    conn.close()
+    stored = json.loads(row["data"]) if row and row["data"] else {}
+    return _deep_merge(DEFAULT_CONTENT, stored)
+
+
+def save_content(content):
+    conn = get_db()
+    conn.execute(
+        "INSERT INTO site_content (id, data) VALUES (1, ?) "
+        "ON CONFLICT(id) DO UPDATE SET data=excluded.data",
+        (json.dumps(content, ensure_ascii=False),),
+    )
+    conn.commit()
+    conn.close()
 
 
 # ------------------------------------------------------------------
@@ -242,6 +308,7 @@ ADMIN_HTML = """
 <header>
   <h1>金寨驾校 · 报名管理</h1>
   <div>
+    <a href="{{ url_for('admin_content') }}">网站内容</a>
     <a href="{{ url_for('export_csv') }}">导出 CSV</a>
     <a href="{{ url_for('admin_logout') }}">退出登录</a>
   </div>
@@ -287,6 +354,100 @@ ADMIN_HTML = """
   {% else %}
   <div class="empty">暂无报名信息</div>
   {% endif %}
+</div></body></html>
+"""
+
+
+CONTENT_HTML = """
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>网站内容管理 - 金寨驾校</title>
+<style>
+ body{font-family:-apple-system,"PingFang SC",sans-serif;background:#f4f6f9;margin:0;color:#222}
+ header{background:#1a3b6e;color:#fff;padding:16px 28px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;row-gap:8px}
+ header h1{font-size:18px;margin:0}
+ header a{color:#cfe0ff;text-decoration:none;font-size:14px;margin-left:18px}
+ .wrap{max-width:820px;margin:0 auto;padding:22px 16px}
+ .card{background:#fff;border-radius:10px;box-shadow:0 2px 12px rgba(0,0,0,.05);padding:20px 22px;margin-bottom:20px}
+ .card h2{font-size:17px;color:#1a3b6e;margin:0 0 16px;border-left:4px solid #1a73e8;padding-left:10px}
+ .field{margin-bottom:16px}
+ label{display:block;font-size:13px;color:#555;font-weight:600;margin-bottom:6px}
+ input[type=text],textarea{width:100%;box-sizing:border-box;padding:10px 12px;border:1px solid #d9dee5;border-radius:6px;font-size:14px;font-family:inherit}
+ textarea{min-height:76px;resize:vertical;line-height:1.6}
+ .row{display:flex;gap:14px;flex-wrap:wrap}
+ .row .field{flex:1;min-width:160px}
+ .imgbox{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+ .imgbox img{height:70px;border-radius:6px;border:1px solid #e3e7ee}
+ .imgtip{font-size:12px;color:#999}
+ .course{border:1px solid #eef1f5;border-radius:8px;padding:14px;margin-bottom:14px;background:#fafcff}
+ .course h3{margin:0 0 12px;font-size:15px;color:#333}
+ .save{position:sticky;bottom:0;background:#f4f6f9;padding:14px 0;text-align:center}
+ .btn{background:#1a73e8;color:#fff;border:0;padding:13px 40px;border-radius:8px;font-size:16px;cursor:pointer}
+ .toast{background:#e6f4ea;color:#1a7f37;padding:10px 16px;border-radius:6px;margin-bottom:16px;text-align:center}
+</style></head><body>
+<header>
+  <h1>金寨驾校 · 网站内容管理</h1>
+  <div>
+    <a href="{{ url_for('admin') }}">报名管理</a>
+    <a href="{{ url_for('admin_logout') }}">退出登录</a>
+  </div>
+</header>
+<div class="wrap">
+  {% if saved %}<div class="toast">✅ 已保存，网站已即时更新（访客刷新即可看到）</div>{% endif %}
+  <form method="post" enctype="multipart/form-data">
+
+    <div class="card">
+      <h2>全局信息</h2>
+      <div class="field"><label>报名电话</label><input type="text" name="g_phone" value="{{ c.global.phone }}"></div>
+      <div class="field"><label>校区地址</label><input type="text" name="g_address" value="{{ c.global.address }}"></div>
+      <div class="row">
+        <div class="field"><label>营业时间·行1</label><input type="text" name="g_hours1" value="{{ c.global.hours1 }}"></div>
+        <div class="field"><label>营业时间·行2</label><input type="text" name="g_hours2" value="{{ c.global.hours2 }}"></div>
+        <div class="field"><label>营业时间·行3</label><input type="text" name="g_hours3" value="{{ c.global.hours3 }}"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>首页</h2>
+      <div class="field"><label>大图标题</label><input type="text" name="h_hero_title" value="{{ c.home.hero_title }}"></div>
+      <div class="field"><label>大图副标题</label><input type="text" name="h_hero_subtitle" value="{{ c.home.hero_subtitle }}"></div>
+      <div class="field">
+        <label>首页大图（hero）</label>
+        <div class="imgbox">
+          {% if c.home.hero_image %}<img src="{{ c.home.hero_image }}">{% else %}<span class="imgtip">（当前使用默认图）</span>{% endif %}
+          <input type="file" name="hero_image_file" accept="image/*">
+        </div>
+        <input type="hidden" name="hero_image_cur" value="{{ c.home.hero_image }}">
+      </div>
+      <div class="field"><label>关于·标题</label><input type="text" name="h_about_title" value="{{ c.home.about_title }}"></div>
+      <div class="field"><label>关于·段落1</label><textarea name="h_about_text1">{{ c.home.about_text1 }}</textarea></div>
+      <div class="field"><label>关于·段落2</label><textarea name="h_about_text2">{{ c.home.about_text2 }}</textarea></div>
+    </div>
+
+    <div class="card">
+      <h2>课程（4 项）</h2>
+      {% for i in range(4) %}
+      <div class="course">
+        <h3>课程 {{ i+1 }}</h3>
+        <div class="row">
+          <div class="field"><label>名称</label><input type="text" name="c{{ i }}_name" value="{{ c.courses[i].name }}"></div>
+          <div class="field"><label>价格</label><input type="text" name="c{{ i }}_price" value="{{ c.courses[i].price }}"></div>
+        </div>
+        <div class="field"><label>描述</label><textarea name="c{{ i }}_desc">{{ c.courses[i].desc }}</textarea></div>
+        <div class="field">
+          <label>课程配图</label>
+          <div class="imgbox">
+            {% if c.courses[i].image %}<img src="{{ c.courses[i].image }}">{% else %}<span class="imgtip">（当前使用默认图）</span>{% endif %}
+            <input type="file" name="c{{ i }}_image_file" accept="image/*">
+          </div>
+          <input type="hidden" name="c{{ i }}_image_cur" value="{{ c.courses[i].image }}">
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    <div class="save"><button class="btn" type="submit">保存并发布</button></div>
+  </form>
 </div></body></html>
 """
 
@@ -367,6 +528,69 @@ def export_csv():
         mimetype="text/csv",
         headers={"Content-Disposition": "attachment; filename=enrollments.csv"},
     )
+
+
+# ------------------------------------------------------------------
+# 网站内容管理（CMS）
+# ------------------------------------------------------------------
+@app.route("/api/content")
+def api_content():
+    """前端读取网站内容（公开）。"""
+    return jsonify(get_content())
+
+
+def _save_image(file_storage, prefix):
+    if not file_storage or not file_storage.filename:
+        return None
+    ext = os.path.splitext(file_storage.filename)[1].lower()
+    if ext not in ALLOWED_IMG:
+        return None
+    os.makedirs(UPLOAD_DIR, exist_ok=True)
+    fname = secure_filename(f"{prefix}_{secrets.token_hex(6)}{ext}")
+    file_storage.save(os.path.join(UPLOAD_DIR, fname))
+    try:
+        os.chmod(os.path.join(UPLOAD_DIR, fname), 0o644)
+    except Exception:
+        pass
+    return "/uploads/" + fname
+
+
+@app.route("/admin/content", methods=["GET", "POST"])
+@login_required
+def admin_content():
+    saved = False
+    if request.method == "POST":
+        c = get_content()
+        f = request.form
+        c["global"] = {
+            "phone": f.get("g_phone", "").strip(),
+            "address": f.get("g_address", "").strip(),
+            "hours1": f.get("g_hours1", "").strip(),
+            "hours2": f.get("g_hours2", "").strip(),
+            "hours3": f.get("g_hours3", "").strip(),
+        }
+        hero_img = _save_image(request.files.get("hero_image_file"), "hero") or f.get("hero_image_cur", "")
+        c["home"] = {
+            "hero_title": f.get("h_hero_title", "").strip(),
+            "hero_subtitle": f.get("h_hero_subtitle", "").strip(),
+            "hero_image": hero_img,
+            "about_title": f.get("h_about_title", "").strip(),
+            "about_text1": f.get("h_about_text1", "").strip(),
+            "about_text2": f.get("h_about_text2", "").strip(),
+        }
+        courses = []
+        for i in range(4):
+            img = _save_image(request.files.get(f"c{i}_image_file"), f"course{i}") or f.get(f"c{i}_image_cur", "")
+            courses.append({
+                "name": f.get(f"c{i}_name", "").strip(),
+                "price": f.get(f"c{i}_price", "").strip(),
+                "desc": f.get(f"c{i}_desc", "").strip(),
+                "image": img,
+            })
+        c["courses"] = courses
+        save_content(c)
+        saved = True
+    return render_template_string(CONTENT_HTML, c=get_content(), saved=saved)
 
 
 @app.route("/healthz")

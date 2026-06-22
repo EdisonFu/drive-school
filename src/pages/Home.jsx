@@ -1,21 +1,30 @@
 import React from 'react';
 import imagesConfig from '../assets/imagesConfig';
 import { useEnrollForm } from '../useEnrollForm';
+import { useContent } from '../content';
 import '../styles/Home.css';
+
+const COURSE_DEFAULT_IMGS = [
+  imagesConfig.c1Course,
+  imagesConfig.truck,
+  imagesConfig.forklift,
+  imagesConfig.motorCourse,
+];
 
 const Home = () => {
   const { status, error, handleSubmit } = useEnrollForm('首页-在线预约');
+  const c = useContent();
   return (
     <div className="home-page">
       {/* 英雄区域 */}
       <section className="hero">
         <div className="hero-content">
-          <img src={imagesConfig.hero} alt="金寨驾校" className="hero-image" />
+          <img src={c.home.hero_image || imagesConfig.hero} alt="金寨驾校" className="hero-image" />
           <div className="hero-overlay">
             <div className="container">
               <div className="hero-text">
-                <h2>专业驾驶培训</h2>
-                <p>金寨驾校 - 金寨县专业驾培领航者 - 20余年驾培经验</p>
+                <h2>{c.home.hero_title}</h2>
+                <p>{c.home.hero_subtitle}</p>
                 <a href="#contact-form" className="btn btn-primary">立即报名</a>
               </div>
             </div>
@@ -32,9 +41,9 @@ const Home = () => {
               <img src={imagesConfig.history} alt="驾校历史" />
             </div>
             <div className="about-content">
-              <h3>驾校简介</h3>
-              <p>金寨驾校于1995年申报，1999年7月经省运管局批准立项，同年11月正式面向社会招生办学。作为金寨县历史悠久的驾驶培训机构，我们已有超过20年的办学经验，培养了数万名合格驾驶员。</p>
-              <p>我校占地70余亩，拥有教学楼及附属房屋90间，配备完善的教学设施、宽敞的训练场地和一支经验丰富的教练团队，致力于为每一位学员提供专业、便捷、高效的驾驶培训服务。</p>
+              <h3>{c.home.about_title}</h3>
+              <p>{c.home.about_text1}</p>
+              <p>{c.home.about_text2}</p>
               <a href="/about" className="btn btn-secondary">了解更多</a>
             </div>
           </div>
@@ -45,58 +54,21 @@ const Home = () => {
         <div className="container">
           <h2 className="section-title">培训课程</h2>
           <div className="grid grid-4">
-            <div className="course-card card">
-              <div className="course-image">
-                <img src={imagesConfig.c1Course} alt="C1C2驾照" />
-              </div>
-              <div className="course-content">
-                <h3>C1/C2驾照</h3>
-                <p>小型汽车，手动(C1)与自动挡(C2)同价，自有考场。</p>
-                <div className="course-action">
-                  <span className="course-price">¥3320起</span>
-                  <a href="/courses" className="btn-submit">立即报名</a>
+            {c.courses.map((course, i) => (
+              <div className="course-card card" key={i}>
+                <div className="course-image">
+                  <img src={course.image || COURSE_DEFAULT_IMGS[i]} alt={course.name} />
+                </div>
+                <div className="course-content">
+                  <h3>{course.name}</h3>
+                  <p>{course.desc}</p>
+                  <div className="course-action">
+                    <span className="course-price">{course.price}</span>
+                    <a href="/courses" className="btn-submit">立即报名</a>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="course-card card">
-              <div className="course-image">
-                <img src={imagesConfig.truck} alt="货车培训" />
-              </div>
-              <div className="course-content">
-                <h3>货车（B2 / A2）</h3>
-                <p>大型货车、牵引车，初学与增驾均可，专业大车带教。</p>
-                <div className="course-action">
-                  <span className="course-price">¥3980起</span>
-                  <a href="/courses" className="btn-submit">立即报名</a>
-                </div>
-              </div>
-            </div>
-            <div className="course-card card">
-              <div className="course-image">
-                <img src={imagesConfig.forklift} alt="叉车培训" />
-              </div>
-              <div className="course-content">
-                <h3>叉车</h3>
-                <p>特种作业培训，零基础可报，考取后持证上岗。</p>
-                <div className="course-action">
-                  <span className="course-price">¥1600起</span>
-                  <a href="/courses" className="btn-submit">立即报名</a>
-                </div>
-              </div>
-            </div>
-            <div className="course-card card">
-              <div className="course-image">
-                <img src={imagesConfig.motorCourse} alt="摩托车驾照" />
-              </div>
-              <div className="course-content">
-                <h3>摩托车（E/F证）</h3>
-                <p>专业摩托车训练场地，学习周期短，1-2个月可完成。</p>
-                <div className="course-action">
-                  <span className="course-price">¥860起</span>
-                  <a href="/courses" className="btn-submit">立即报名</a>
-                </div>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </section>
@@ -178,7 +150,7 @@ const Home = () => {
                 <p>填写信息，我们会尽快联系您，为您安排最便捷的看场地时间或解答您的疑问。</p>
                 <div className="contact-phone">
                   <img src={imagesConfig.phoneIcon} alt="电话" />
-                  <span>0564-7358222</span>
+                  <span>{c.global.phone}</span>
                 </div>
               </div>
             </div>
