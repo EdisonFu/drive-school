@@ -328,17 +328,16 @@ ADMIN_HTML = """
   td{padding:7px 16px;border-bottom:1px solid #f4f6f9;text-align:left;word-break:break-word}
   td::before{content:attr(data-label);display:block;font-size:12px;font-weight:600;color:#8a93a0;margin-bottom:3px}
   td.msg{max-width:none}
-  td:last-child{display:flex;gap:8px;padding-top:12px;border-bottom:0}
-  td:last-child::before{display:none}
+  td.actions{display:flex;gap:8px;padding-top:12px}
+  td.actions::before{display:none}
+  td:last-child{border-bottom:0}
   .btn{padding:8px 14px;font-size:13px}
  }
 </style></head><body>
 <header>
   <h1>金寨驾校 · 报名管理</h1>
   <div>
-    <a href="{{ url_for('admin_stats') }}">访问统计</a>
     <a href="{{ url_for('admin_content') }}">网站内容</a>
-    <a href="{{ url_for('export_csv') }}">导出 CSV</a>
     <a href="{{ url_for('admin_logout') }}">退出登录</a>
   </div>
 </header>
@@ -348,7 +347,7 @@ ADMIN_HTML = """
   <table>
     <tr>
       <th>#</th><th>提交时间</th><th>姓名</th><th>手机号</th><th>意向课程</th>
-      <th>留言</th><th>来源</th><th>状态</th><th>跟进记录</th><th>操作</th>
+      <th>留言</th><th>来源</th><th>状态</th><th>操作</th><th>跟进记录</th>
     </tr>
     {% for r in rows %}
     <tr>
@@ -366,13 +365,7 @@ ADMIN_HTML = """
           <span class="badge b-new">待联系</span>
         {% endif %}
       </td>
-      <td data-label="跟进记录">
-        <form method="post" action="{{ url_for('save_note', rid=r['id']) }}" class="note-form">
-          <textarea name="note" rows="2" placeholder="填写跟进记录…">{{ r['note'] or '' }}</textarea>
-          <button class="btn btn-toggle" type="submit">保存备注</button>
-        </form>
-      </td>
-      <td data-label="操作">
+      <td data-label="操作" class="actions">
         <form class="inline" method="post" action="{{ url_for('toggle_status', rid=r['id']) }}">
           <button class="btn btn-toggle" type="submit">
             {{ '设为待联系' if r['status']=='done' else '标记已联系' }}
@@ -381,6 +374,12 @@ ADMIN_HTML = """
         <form class="inline" method="post" action="{{ url_for('delete_row', rid=r['id']) }}"
               onsubmit="return confirm('确定删除这条报名？');">
           <button class="btn btn-del" type="submit">删除</button>
+        </form>
+      </td>
+      <td data-label="跟进记录">
+        <form method="post" action="{{ url_for('save_note', rid=r['id']) }}" class="note-form">
+          <textarea name="note" rows="2" placeholder="填写跟进记录…">{{ r['note'] or '' }}</textarea>
+          <button class="btn btn-toggle" type="submit">保存</button>
         </form>
       </td>
     </tr>
