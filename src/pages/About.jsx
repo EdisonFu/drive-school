@@ -81,6 +81,42 @@ const About = () => {
         </div>
       </section>
 
+      {/* 校园生活与配套 */}
+      <section className="section facility-section">
+        <div className="container">
+          <h2 className="section-title">校园生活与配套</h2>
+          <div className="grid grid-2 campus-row">
+            <div className="content-text campus-text">
+              <ul className="feature-list">
+                <li>
+                  <h3>自有考场 · 考训一体</h3>
+                  <p>科目二、科目三自有考场，考训一体，周六可考。</p>
+                </li>
+                <li>
+                  <h3>标准化电脑教室</h3>
+                  <p>独立隔间机房，专用于科目一/四理论与模拟考试。</p>
+                </li>
+                <li>
+                  <h3>免费接送校车</h3>
+                  <p>9 座学员接送车，免费接送，免去乡镇往返奔波。</p>
+                </li>
+                <li>
+                  <h3>宿舍 · 单人 / 多人</h3>
+                  <p>配空调、书桌，适合外地或集中学车学员入住。</p>
+                </li>
+                <li>
+                  <h3>食堂 · 洗衣</h3>
+                  <p>自营食堂按需取餐；自助洗烘一体机刷卡即用。</p>
+                </li>
+              </ul>
+            </div>
+            <div className="content-image campus-image-wrap">
+              <PhotoCarousel items={CAMPUS_PHOTOS} />
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* 教学理念 */}
       <section className="section philosophy-section">
         <div className="container">
@@ -120,43 +156,6 @@ const About = () => {
               <p>金寨驾校拥有一支经验丰富、技术精湛的教练团队。我们的教练员平均教龄超过8年，驾龄均在10年以上，具备扎实的驾驶技能和丰富的教学经验。</p>
               <p>所有教练员都经过严格的专业培训和考核，持证上岗，定期参加继续教育和技能提升培训，确保教学质量。我们的教练不仅具备专业的驾驶技能，还拥有良好的沟通能力和教学方法。</p>
               <p>我们注重教练员的职业道德培养，要求教练员对学员耐心负责、认真细致，绝不允许吃拿卡要、体罚学员等现象发生。我们的宗旨是让每一位学员都能感受到尊重与关怀。</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 校园生活与配套 (设施与考场 + 食宿) */}
-      <section className="section facility-section">
-        <div className="container">
-          <h2 className="section-title">校园生活与配套</h2>
-          <div className="grid grid-2">
-            <div className="content-text">
-              <p>金寨驾校提供完善的教学设施和生活配套，让学员吃住学一体化，省心省时学到证。</p>
-              <ul className="feature-list">
-                <li>
-                  <h3>自有考场 · 考训一体</h3>
-                  <p>拥有自己的科目二、科目三考试场地，学员可在实际考场训练，熟悉考试环境，提高通过率，周六可考无需请假。</p>
-                </li>
-                <li>
-                  <h3>标准化电脑教室</h3>
-                  <p>独立隔间电脑机房，专用于科目一、科目四理论学习与考试模拟，安静专注，提升学习效率。</p>
-                </li>
-                <li>
-                  <h3>免费接送 · 学车无忧</h3>
-                  <p>驾校自有 9 座学员接送车，为各乡镇学员提供免费接送服务，免去往返奔波。</p>
-                </li>
-                <li>
-                  <h3>住宿 · 单人 / 多人房</h3>
-                  <p>提供单人酒店式宿舍和多人房，均配空调、独立书桌，采光通风良好，适合外地或集中学车学员长期入住。</p>
-                </li>
-                <li>
-                  <h3>食堂 · 洗衣 一应俱全</h3>
-                  <p>校内自营食堂按需取餐、价格实惠；自助洗衣房配智能洗烘一体机，刷卡即用，吃住学一站搞定。</p>
-                </li>
-              </ul>
-            </div>
-            <div className="content-image">
-              <PhotoCarousel items={CAMPUS_PHOTOS} />
             </div>
           </div>
         </div>

@@ -166,3 +166,11 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* 校园生活与配套: 文字段落对轮播图垂直居中 */
+.about-page .campus-row {
+  align-items: center;
+}
+.about-page .campus-text ul {
+  margin: 0;
+}
