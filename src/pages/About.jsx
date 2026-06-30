@@ -1,7 +1,23 @@
 import React from 'react';
 import imagesConfig from '../assets/imagesConfig';
 import { useContent } from '../content';
+import PhotoCarousel from '../components/PhotoCarousel';
 import '../styles/About.css';
+
+const CAMPUS_PHOTOS = [
+  { src: imagesConfig.shuttle, title: '免费接送校车',
+    desc: '驾校自有学员接送车，提供免费接送服务，让学车更省心' },
+  { src: imagesConfig.dormSingle, title: '单人宿舍',
+    desc: '配备空调、独立书桌、采光好的酒店式单间，适合外地学员长期住宿' },
+  { src: imagesConfig.dormMulti, title: '多人宿舍',
+    desc: '宽敞明亮的多人宿舍，干净整洁，适合短期集中学车的学员' },
+  { src: imagesConfig.canteen, title: '学员食堂',
+    desc: '校内自营食堂，按需取餐、价格实惠，文明用餐，吃饭省心省时' },
+  { src: imagesConfig.laundry, title: '自助洗衣房',
+    desc: '配备智能洗烘一体机，刷卡即用，长期住宿学员衣物处理无忧' },
+  { src: imagesConfig.computerRoom, title: '标准化电脑教室',
+    desc: '独立隔间机房，专用于科目一、科目四理论学习与考试模拟' },
+];
 
 const About = () => {
   const c = useContent();
@@ -109,30 +125,38 @@ const About = () => {
         </div>
       </section>
 
-      {/* 设施与考场 */}
+      {/* 校园生活与配套 (设施与考场 + 食宿) */}
       <section className="section facility-section">
         <div className="container">
-          <h2 className="section-title">设施与考场</h2>
+          <h2 className="section-title">校园生活与配套</h2>
           <div className="grid grid-2">
             <div className="content-text">
-              <p>金寨驾校拥有现代化的教学设施和完善的服务配套，为学员提供舒适便捷的学习环境。</p>
+              <p>金寨驾校提供完善的教学设施和生活配套，让学员吃住学一体化，省心省时学到证。</p>
               <ul className="feature-list">
                 <li>
-                  <h3>自有考场</h3>
-                  <p>我校拥有自己的考试场地，考训一体化，学员可以在实际考试场地进行训练，熟悉考试环境，提高通过率。周六可考，无需请假。</p>
+                  <h3>自有考场 · 考训一体</h3>
+                  <p>拥有自己的科目二、科目三考试场地，学员可在实际考场训练，熟悉考试环境，提高通过率，周六可考无需请假。</p>
                 </li>
                 <li>
-                  <h3>多媒体教室</h3>
-                  <p>配备现代化多媒体教室，采用图文并茂、视频演示等方式进行理论教学，提高学习效果。</p>
+                  <h3>标准化电脑教室</h3>
+                  <p>独立隔间电脑机房，专用于科目一、科目四理论学习与考试模拟，安静专注，提升学习效率。</p>
                 </li>
                 <li>
-                  <h3>休息区域</h3>
-                  <p>设有空调休息室、饮水区、卫生间等配套设施，为学员提供舒适的休息环境。</p>
+                  <h3>免费接送 · 学车无忧</h3>
+                  <p>驾校自有 9 座学员接送车，为各乡镇学员提供免费接送服务，免去往返奔波。</p>
+                </li>
+                <li>
+                  <h3>住宿 · 单人 / 多人房</h3>
+                  <p>提供单人酒店式宿舍和多人房，均配空调、独立书桌，采光通风良好，适合外地或集中学车学员长期入住。</p>
+                </li>
+                <li>
+                  <h3>食堂 · 洗衣 一应俱全</h3>
+                  <p>校内自营食堂按需取餐、价格实惠；自助洗衣房配智能洗烘一体机，刷卡即用，吃住学一站搞定。</p>
                 </li>
               </ul>
             </div>
             <div className="content-image">
-              <img src={imagesConfig.facility} alt="金寨驾校设施" />
+              <PhotoCarousel items={CAMPUS_PHOTOS} />
             </div>
           </div>
         </div>

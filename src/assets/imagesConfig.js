@@ -21,6 +21,12 @@ import contact from './contact.jpg';
 import honor from './honor.jpg';
 import truck from './truck.jpg';
 import forklift from './forklift.jpg';
+import shuttle from './campus/shuttle.jpg';
+import dormSingle from './campus/dorm-single.jpg';
+import dormMulti from './campus/dorm-multi.jpg';
+import canteen from './campus/canteen.jpg';
+import laundry from './campus/laundry.jpg';
+import computerRoom from './campus/computer-room.jpg';
 import submitBtn from './images/submit-btn.png';
 import arrowRight from './images/arrow-right.png';
 import phoneIcon from './images/phone-icon.png';
@@ -51,6 +57,12 @@ const imagesConfig = {
   campus,
   facility,
   honor,
+  shuttle,
+  dormSingle,
+  dormMulti,
+  canteen,
+  laundry,
+  computerRoom,
 
   // 其他资源
   teachingStaff,
