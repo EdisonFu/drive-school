@@ -89,7 +89,8 @@ DEFAULT_CONTENT = {
         "about_text2": "我校占地70余亩，拥有教学楼及附属房屋90间，配备完善的教学设施、宽敞的训练场地和一支经验丰富的教练团队，致力于为每一位学员提供专业、便捷、高效的驾驶培训服务。",
     },
     "courses": [
-        {"name": "C1/C2驾照", "price": "¥3320起", "desc": "小型汽车，手动(C1)与自动挡(C2)培训费同价，自有考场，考训一体。", "image": ""},
+        {"name": "C1/C2驾照", "price": "¥3320起", "desc": "小型汽车，手动(C1)与自动挡(C2)培训费同价，自有考场，考训一体。", "image": "",
+         "vip_name": "C1/C2 VIP班", "vip_price": "", "vip_desc": ""},
         {"name": "货车（B2/A2）", "price": "¥3980起", "desc": "大型货车、牵引车，初学与增驾均可，专业大车带教，另设叉车特种作业培训。", "image": ""},
         {"name": "叉车", "price": "¥1600起", "desc": "特种作业培训，零基础可报，考取后持证上岗。", "image": ""},
         {"name": "摩托车（E/F证）", "price": "¥860起", "desc": "专业摩托车训练场地，学习周期短，1-2个月可完成。", "image": ""},
@@ -476,6 +477,16 @@ CONTENT_HTML = """
           </div>
           <input type="hidden" name="c{{ i }}_image_cur" value="{{ c.courses[i].image }}">
         </div>
+        {% if i == 0 %}
+        <div style="margin-top:14px;padding-top:14px;border-top:1px dashed #d4dae3">
+          <div style="font-size:13px;color:#1a73e8;font-weight:600;margin-bottom:10px">⭐ VIP 班（C1/C2 专属，留空则不显示）</div>
+          <div class="row">
+            <div class="field"><label>VIP 班名称</label><input type="text" name="c0_vip_name" value="{{ c.courses[0].vip_name or '' }}" placeholder="例：C1/C2 VIP班"></div>
+            <div class="field"><label>VIP 班价格</label><input type="text" name="c0_vip_price" value="{{ c.courses[0].vip_price or '' }}" placeholder="例：¥6800起，留空则不显示VIP班"></div>
+          </div>
+          <div class="field"><label>VIP 班描述</label><textarea name="c0_vip_desc" placeholder="例：一对一教学，优先安排考试，专属VIP练车通道">{{ c.courses[0].vip_desc or '' }}</textarea></div>
+        </div>
+        {% endif %}
       </div>
       {% endfor %}
     </div>
@@ -621,6 +632,10 @@ def admin_content():
                 "desc": f.get(f"c{i}_desc", "").strip(),
                 "image": img,
             })
+        # 仅第 1 个课程(C1/C2)支持 VIP 班可编辑
+        courses[0]["vip_name"] = f.get("c0_vip_name", "").strip()
+        courses[0]["vip_price"] = f.get("c0_vip_price", "").strip()
+        courses[0]["vip_desc"] = f.get("c0_vip_desc", "").strip()
         c["courses"] = courses
         save_content(c)
         saved = True

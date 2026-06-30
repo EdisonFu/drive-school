@@ -194,3 +194,50 @@
     margin-top: 10px;
   }
 }
+
+/* C1/C2 VIP 子卡 */
+.courses-page .course-vip {
+  margin-top: 14px;
+  background: linear-gradient(135deg, #fff7e6 0%, #fff1d4 100%);
+  border: 2px solid #f5b942;
+  border-radius: 10px;
+  padding: 16px 22px;
+}
+
+.courses-page .course-vip-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.courses-page .vip-tag {
+  background: linear-gradient(135deg, #f5b942 0%, #e8a020 100%);
+  color: #fff;
+  font-weight: 700;
+  font-size: 13px;
+  padding: 4px 12px;
+  border-radius: 6px;
+  white-space: nowrap;
+}
+
+.courses-page .course-vip h4 {
+  flex: 1;
+  margin: 0;
+  font-size: 18px;
+  color: #8a5a00;
+}
+
+.courses-page .vip-tag-price {
+  font-size: 20px;
+  font-weight: 700;
+  color: #e8a020;
+  white-space: nowrap;
+}
+
+.courses-page .vip-desc {
+  margin: 10px 0 0;
+  color: #6b4a00;
+  font-size: 14px;
+  line-height: 1.7;
+}

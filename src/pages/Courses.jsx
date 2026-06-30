@@ -76,6 +76,16 @@ const Courses = () => {
                 <a href="#contact-form" className="btn btn-primary">立即报名</a>
               </div>
             </div>
+            {c.courses[0]?.vip_price && (
+              <div className="course-vip">
+                <div className="course-vip-header">
+                  <span className="vip-tag">⭐ VIP</span>
+                  <h4>{c.courses[0].vip_name || 'C1/C2 VIP 班'}</h4>
+                  <span className="vip-tag-price">{c.courses[0].vip_price}</span>
+                </div>
+                {c.courses[0].vip_desc && <p className="vip-desc">{c.courses[0].vip_desc}</p>}
+              </div>
+            )}
           </div>
 
           {/* 货车（B2 / A2）*/}

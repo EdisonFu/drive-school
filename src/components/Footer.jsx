@@ -26,7 +26,12 @@ const Footer = () => {
           </div>
         </div>
         <div className="footer-bottom">
-          <p>&copy; {new Date().getFullYear()} 金寨驾校 版权所有</p>
+          <p>
+            &copy; {new Date().getFullYear()} 金寨驾校 版权所有 ·{' '}
+            <a href="https://beian.miit.gov.cn/" target="_blank" rel="noreferrer" className="icp-link">
+              皖ICP备2026019697号-1
+            </a>
+          </p>
         </div>
       </div>
     </footer>

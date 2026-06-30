@@ -70,6 +70,19 @@ const Home = () => {
               </div>
             ))}
           </div>
+          {c.courses[0]?.vip_price && (
+            <div className="vip-banner">
+              <div className="vip-badge">⭐ VIP</div>
+              <div className="vip-content">
+                <h3>{c.courses[0].vip_name || 'C1/C2 VIP 班'}</h3>
+                <p>{c.courses[0].vip_desc || '专属服务、优先考试、一对一教学'}</p>
+              </div>
+              <div className="vip-action">
+                <span className="vip-price">{c.courses[0].vip_price}</span>
+                <a href="/courses" className="btn-submit">立即报名</a>
+              </div>
+            </div>
+          )}
         </div>
       </section>
 
